@@ -1,545 +1,185 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Contact — Fennec Tech Labs</title>
-    <link rel="stylesheet" href="../css/global.css" />
-    <style>
-      .contact-layout {
-        display: grid;
-        grid-template-columns: 1fr 1.3fr;
-        gap: 80px;
-        padding: 80px 0 120px;
-        align-items: start;
-      }
-      .contact-info {
-        position: sticky;
-        top: 120px;
-      }
-      .contact-info h2 {
-        font-family: "Syne", sans-serif;
-        font-size: clamp(30px, 4vw, 50px);
-        font-weight: 800;
-        letter-spacing: -2px;
-        line-height: 0.96;
-        color: var(--text);
-        margin-bottom: 20px;
-      }
-      .contact-info p {
-        font-size: 15px;
-        color: var(--text-muted);
-        line-height: 1.75;
-        font-weight: 300;
-        margin-bottom: 40px;
-        max-width: 360px;
-      }
-      .contact-detail {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        margin-bottom: 36px;
-      }
-      .contact-detail-item {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 16px 18px;
-        background: var(--surface);
-        border: 1px solid var(--border-sub);
-        border-radius: var(--radius);
-        transition: border-color var(--transition);
-        cursor: none;
-      }
-      .contact-detail-item:hover {
-        border-color: var(--fox);
-      }
-      .detail-icon {
-        width: 38px;
-        height: 38px;
-        background: var(--fox-dim);
-        border-radius: var(--radius);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 17px;
-        flex-shrink: 0;
-      }
-      .detail-label {
-        font-size: 11px;
-        color: var(--text-dim);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 3px;
-        font-weight: 600;
-      }
-      .detail-value {
-        font-size: 14px;
-        color: var(--text);
-      }
-      .avail-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 7px 16px;
-        background: rgba(34, 197, 94, 0.07);
-        border: 1px solid rgba(34, 197, 94, 0.2);
-        border-radius: 100px;
-        font-size: 12px;
-        color: #4ade80;
-        letter-spacing: 1px;
-      }
-      .avail-dot {
-        width: 6px;
-        height: 6px;
-        background: #4ade80;
-        border-radius: 50%;
-        animation: blink 1.5s infinite;
-      }
-      @keyframes blink {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.3;
-        }
-      }
-      .form-box {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 48px;
-      }
-      .form-title {
-        font-family: "Syne", sans-serif;
-        font-size: 21px;
-        font-weight: 700;
-        color: var(--text);
-        margin-bottom: 8px;
-      }
-      .form-sub {
-        font-size: 14px;
-        color: var(--text-muted);
-        margin-bottom: 32px;
-        font-weight: 300;
-      }
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-      }
-      .fg {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-      }
-      .fg.full {
-        grid-column: 1/-1;
-      }
-      .fg label {
-        font-size: 11.5px;
-        font-weight: 600;
-        color: var(--text-muted);
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-      }
-      .fg input,
-      .fg select,
-      .fg textarea {
-        background: var(--bg);
-        border: 1px solid var(--border-sub);
-        border-radius: var(--radius);
-        padding: 12px 14px;
-        font-family: "DM Sans", sans-serif;
-        font-size: 14px;
-        color: var(--text);
-        outline: none;
-        transition:
-          border-color var(--transition),
-          box-shadow var(--transition);
-        width: 100%;
-        appearance: none;
-      }
-      .fg input:focus,
-      .fg select:focus,
-      .fg textarea:focus {
-        border-color: var(--fox);
-        box-shadow: 0 0 0 3px var(--fox-dim);
-      }
-      .fg input::placeholder,
-      .fg textarea::placeholder {
-        color: var(--text-dim);
-      }
-      .fg textarea {
-        resize: vertical;
-        min-height: 120px;
-      }
-      .budget-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-      }
-      .bo {
-        display: none;
-      }
-      .bl {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 6px;
-        border: 1px solid var(--border-sub);
-        border-radius: var(--radius);
-        font-size: 12px;
-        color: var(--text-muted);
-        cursor: none;
-        transition: all var(--transition);
-        text-align: center;
-        font-weight: 500;
-      }
-      .bo:checked + .bl {
-        border-color: var(--fox);
-        color: var(--fox-bright);
-        background: var(--fox-dim);
-      }
-      .bl:hover {
-        border-color: rgba(196, 81, 31, 0.35);
-        color: var(--text);
-      }
-      .sub-btn {
-        width: 100%;
-        margin-top: 22px;
-        font-family: "Syne", sans-serif;
-        font-size: 14px;
-        font-weight: 700;
-        padding: 15px;
-        background: var(--fox);
-        color: white;
-        border: none;
-        border-radius: var(--radius);
-        cursor: none;
-        letter-spacing: 0.5px;
-        transition: all var(--transition);
-      }
-      .sub-btn:hover {
-        background: var(--fox-bright);
-        box-shadow: 0 0 36px var(--fox-glow);
-        transform: translateY(-1px);
-      }
-      .sub-btn:disabled {
-        opacity: 0.6;
-        transform: none;
-        box-shadow: none;
-      }
-      .form-note {
-        font-size: 11.5px;
-        color: var(--text-dim);
-        text-align: center;
-        margin-top: 10px;
-      }
-      @media (max-width: 900px) {
-        .contact-layout {
-          grid-template-columns: 1fr;
-          gap: 40px;
-        }
-        .contact-info {
-          position: static;
-        }
-        .form-grid {
-          grid-template-columns: 1fr;
-        }
-        .budget-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .form-box {
-          padding: 24px 18px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
-    <canvas id="grid-canvas"></canvas>
-    <nav>
-      <a href="../index.html" class="fnc-nav-logo">
-        <span class="fnc-spark"></span><span class="fnc-spark"></span>
-        <span class="fnc-spark"></span><span class="fnc-spark"></span>
-        <span class="fnc-spark"></span>
-        <img
-          src="../images/fennec-logo.svg"
-          class="fnc-nav-img"
-          alt="Fennec Tech Labs"
-        />
-        <div class="fnc-nav-text">
-          <span class="fnc-nav-name"
-            >Fennec Tech Labs<span class="fnc-dot">.</span></span
-          >
-          <span class="fnc-nav-tagline"
-            >Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull"
-              >•</span
-            >Deploy</span
-          >
-        </div>
-      </a>
-      <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="portfolio.html">Work</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="yrpsphere.html">YRPSphere</a></li>
-      </ul>
-      <div class="nav-right">
-        <button class="theme-toggle" onclick="toggleTheme()">☀️</button
-        ><a href="contact.html" class="nav-cta active">Let's Talk →</a
-        ><button class="nav-hamburger">
-          <span></span><span></span><span></span>
-        </button>
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact — Fennec Tech Labs</title>
+  <link rel="stylesheet" href="../css/global.css"/>
+  <style>
+    .contact-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;padding:80px 0 120px;align-items:start;}
+    .contact-info{position:sticky;top:120px;}
+    .contact-info h2{font-family:'Syne',sans-serif;font-size:clamp(30px,4vw,50px);font-weight:800;letter-spacing:-2px;line-height:.96;color:var(--text);margin-bottom:20px;}
+    .contact-info p{font-size:15px;color:var(--text-muted);line-height:1.75;font-weight:300;margin-bottom:40px;max-width:360px;}
+    .contact-detail{display:flex;flex-direction:column;gap:14px;margin-bottom:36px;}
+    .contact-detail-item{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--surface);border:1px solid var(--border-sub);border-radius:var(--radius);transition:border-color var(--transition);cursor:none;}
+    .contact-detail-item:hover{border-color:var(--fox);}
+    .detail-icon{width:38px;height:38px;background:var(--fox-dim);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+    .detail-label{font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;font-weight:600;}
+    .detail-value{font-size:14px;color:var(--text);}
+    .avail-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:100px;font-size:12px;color:#4ade80;letter-spacing:1px;}
+    .avail-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blink 1.5s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .form-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:48px;}
+    .form-title{font-family:'Syne',sans-serif;font-size:21px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .form-sub{font-size:14px;color:var(--text-muted);margin-bottom:32px;font-weight:300;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .fg{display:flex;flex-direction:column;gap:7px;}
+    .fg.full{grid-column:1/-1;}
+    .fg label{font-size:11.5px;font-weight:600;color:var(--text-muted);letter-spacing:.8px;text-transform:uppercase;}
+    .fg input,.fg select,.fg textarea{background:var(--bg);border:1px solid var(--border-sub);border-radius:var(--radius);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color var(--transition),box-shadow var(--transition);width:100%;appearance:none;}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--fox);box-shadow:0 0 0 3px var(--fox-dim);}
+    .fg input::placeholder,.fg textarea::placeholder{color:var(--text-dim);}
+    .fg textarea{resize:vertical;min-height:120px;}
+    .budget-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .bo{display:none;}.bl{display:flex;align-items:center;justify-content:center;padding:10px 6px;border:1px solid var(--border-sub);border-radius:var(--radius);font-size:12px;color:var(--text-muted);cursor:none;transition:all var(--transition);text-align:center;font-weight:500;}
+    .bo:checked+.bl{border-color:var(--fox);color:var(--fox-bright);background:var(--fox-dim);}
+    .bl:hover{border-color:rgba(196,81,31,.35);color:var(--text);}
+    .sub-btn{width:100%;margin-top:22px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;padding:15px;background:var(--fox);color:white;border:none;border-radius:var(--radius);cursor:none;letter-spacing:.5px;transition:all var(--transition);}
+    .sub-btn:hover{background:var(--fox-bright);box-shadow:0 0 36px var(--fox-glow);transform:translateY(-1px);}
+    .sub-btn:disabled{opacity:.6;transform:none;box-shadow:none;}
+    .form-note{font-size:11.5px;color:var(--text-dim);text-align:center;margin-top:10px;}
+    @media(max-width:900px){
+      .contact-layout{grid-template-columns:1fr;gap:40px;}
+      .contact-info{position:static;}
+      .form-grid{grid-template-columns:1fr;}
+      .budget-grid{grid-template-columns:repeat(2,1fr);}
+      .form-box{padding:24px 18px;}
+    }
+    @media(max-width:600px){
+      .contact-layout{padding:48px 0 60px;}
+      .form-box{padding:20px 14px;}
+      .contact-detail{gap:10px;}
+      .contact-detail-item{padding:12px 14px;}
+      .detail-icon{width:32px;height:32px;font-size:14px;}
+      .budget-grid{grid-template-columns:1fr 1fr;}
+      .sub-btn{padding:13px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+  <canvas id="grid-canvas"></canvas>
+  <nav>
+    <a href="../index.html" class="fnc-nav-logo">
+      <span class="fnc-spark"></span><span class="fnc-spark"></span>
+      <span class="fnc-spark"></span><span class="fnc-spark"></span>
+      <span class="fnc-spark"></span>
+      <img src="../images/fennec-logo.svg" class="fnc-nav-img" alt="Fennec Tech Labs"/>
+      <div class="fnc-nav-text">
+        <span class="fnc-nav-name">Fennec Tech Labs<span class="fnc-dot">.</span></span>
+        <span class="fnc-nav-tagline">Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull">•</span>Deploy</span>
       </div>
-    </nav>
+    </a>
+    <ul class="nav-links"><li><a href="../index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li>
+      <li><a href="yrpsphere.html">YRPSphere</a></li>
+    </ul>
+    <div class="nav-right"><button class="theme-toggle" onclick="toggleTheme()">☀️</button><a href="contact.html" class="nav-cta active">Let's Talk →</a><button class="nav-hamburger"><span></span><span></span><span></span></button></div>
+  </nav>
 
-    <div class="section-wrap">
-      <div class="container">
-        <div class="page-hero reveal">
-          <div class="section-label" style="margin-bottom: 14px">
-            Get in Touch
-          </div>
-          <h1 class="section-title" style="margin-bottom: 16px">
-            Let's build<br />something great.
-          </h1>
-          <p class="page-hero-sub">
-            Tell us about your project — we don't do fixed pricing packages. We
-            listen first, then figure out the best way to work together.
-          </p>
+  <div class="section-wrap"><div class="container">
+    <div class="page-hero reveal">
+      <div class="section-label" style="margin-bottom:14px;">Get in Touch</div>
+      <h1 class="section-title" style="margin-bottom:16px;">Let's build<br>something great.</h1>
+      <p class="page-hero-sub">Tell us about your project — we don't do fixed pricing packages. We listen first, then figure out the best way to work together.</p>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-info reveal-left">
+        <h2>We'd love to hear from you.</h2>
+        <p>Whether you have a polished brief or just a rough idea — we'll help you shape it. No commitment required for the first conversation.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-item"><div class="detail-icon">📧</div><div><div class="detail-label">Email</div><div class="detail-value">hello@fennectechlabs.com</div></div></div>
+          <div class="contact-detail-item"><div class="detail-icon">📍</div><div><div class="detail-label">Location</div><div class="detail-value">India · Working globally</div></div></div>
+          <div class="contact-detail-item"><div class="detail-icon">⏱️</div><div><div class="detail-label">Response Time</div><div class="detail-value">Within 24 hours</div></div></div>
         </div>
-        <div class="contact-layout">
-          <div class="contact-info reveal-left">
-            <h2>We'd love to hear from you.</h2>
-            <p>
-              Whether you have a polished brief or just a rough idea — we'll
-              help you shape it. No commitment required for the first
-              conversation.
-            </p>
-            <div class="contact-detail">
-              <div class="contact-detail-item">
-                <div class="detail-icon">📧</div>
-                <div>
-                  <div class="detail-label">Email</div>
-                  <div class="detail-value">hello@fennectechlabs.com</div>
-                </div>
-              </div>
-              <div class="contact-detail-item">
-                <div class="detail-icon">📍</div>
-                <div>
-                  <div class="detail-label">Location</div>
-                  <div class="detail-value">India · Working globally</div>
-                </div>
-              </div>
-              <div class="contact-detail-item">
-                <div class="detail-icon">⏱️</div>
-                <div>
-                  <div class="detail-label">Response Time</div>
-                  <div class="detail-value">Within 24 hours</div>
-                </div>
-              </div>
+        <div class="avail-badge"><span class="avail-dot"></span>Accepting new projects</div>
+      </div>
+      <div class="form-box reveal-right">
+        <div class="form-title">Start a Conversation</div>
+        <div class="form-sub">All enquiries are saved securely. We reply within one business day.</div>
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-grid">
+            <div class="fg"><label>First Name *</label><input name="firstName" placeholder="Rahul" required/></div>
+            <div class="fg"><label>Last Name *</label><input name="lastName" placeholder="Sharma" required/></div>
+            <div class="fg"><label>Work Email *</label><input type="email" name="email" placeholder="rahul@company.com" required/></div>
+            <div class="fg"><label>Phone</label><input type="tel" name="phone" placeholder="+91 98765 43210"/></div>
+            <div class="fg"><label>Company</label><input name="company" placeholder="Your Company"/></div>
+            <div class="fg"><label>Service Needed *</label>
+              <select name="service" required>
+                <option value="">Select a service...</option>
+                <option>UI/UX Design</option><option>Web Development</option>
+                <option>Mobile App</option><option>AI / Gen AI Integration</option>
+                <option>Cloud & DevOps</option><option>Full Product Build</option>
+                <option>YRPSphere / Training</option><option>Other</option>
+              </select>
             </div>
-            <div class="avail-badge">
-              <span class="avail-dot"></span>Accepting new projects
-            </div>
+            <div class="fg full"><label>Message *</label><textarea name="message" placeholder="Tell us about your project — goals, timeline, any specific requirements..." required></textarea></div>
+            <div class="fg full"><label>How did you hear about us?</label><input name="source_detail" placeholder="LinkedIn, referral, Google..."/></div>
           </div>
-          <div class="form-box reveal-right">
-            <div class="form-title">Start a Conversation</div>
-            <div class="form-sub">
-              All enquiries are saved securely. We reply within one business
-              day.
-            </div>
-            <form id="contactForm" onsubmit="submitForm(event)">
-              <div class="form-grid">
-                <div class="fg">
-                  <label>First Name *</label
-                  ><input name="firstName" placeholder="Rahul" required />
-                </div>
-                <div class="fg">
-                  <label>Last Name *</label
-                  ><input name="lastName" placeholder="Sharma" required />
-                </div>
-                <div class="fg">
-                  <label>Work Email *</label
-                  ><input
-                    type="email"
-                    name="email"
-                    placeholder="rahul@company.com"
-                    required
-                  />
-                </div>
-                <div class="fg">
-                  <label>Phone</label
-                  ><input
-                    type="tel"
-                    name="phone"
-                    placeholder="+91 98765 43210"
-                  />
-                </div>
-                <div class="fg">
-                  <label>Company</label
-                  ><input name="company" placeholder="Your Company" />
-                </div>
-                <div class="fg">
-                  <label>Service Needed *</label>
-                  <select name="service" required>
-                    <option value="">Select a service...</option>
-                    <option>UI/UX Design</option>
-                    <option>Web Development</option>
-                    <option>Mobile App</option>
-                    <option>AI / Gen AI Integration</option>
-                    <option>Cloud & DevOps</option>
-                    <option>Full Product Build</option>
-                    <option>YRPSphere / Training</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div class="fg full">
-                  <label>Message *</label
-                  ><textarea
-                    name="message"
-                    placeholder="Tell us about your project — goals, timeline, any specific requirements..."
-                    required
-                  ></textarea>
-                </div>
-                <div class="fg full">
-                  <label>How did you hear about us?</label
-                  ><input
-                    name="source_detail"
-                    placeholder="LinkedIn, referral, Google..."
-                  />
-                </div>
-              </div>
-              <button class="sub-btn" type="submit" id="submitBtn">
-                Send Message →
-              </button>
-              <p class="form-note">
-                Your data is saved to our private Google Sheet. We never share
-                or sell your information.
-              </p>
-            </form>
-          </div>
-        </div>
+          <button class="sub-btn" type="submit" id="submitBtn">Send Message →</button>
+          <p class="form-note">Your data is saved to our private Google Sheet. We never share or sell your information.</p>
+        </form>
       </div>
     </div>
+  </div></div>
 
-    <footer class="section-wrap">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <div class="footer-logo-wrap">
-              <img
-                src="../images/fennec-logo.svg"
-                alt="Fennec Tech Labs"
-                class="footer-logo-img"
-              />
-              <div class="footer-logo-text">
-                <span class="footer-brand-name"
-                  >Fennec Tech Labs<span class="footer-brand-dot">.</span></span
-                >
-                <span class="footer-brand-tagline"
-                  >Design<span class="footer-bull">•</span>Develop<span
-                    class="footer-bull"
-                    >•</span
-                  >Deploy</span
-                >
-              </div>
+  <footer class="section-wrap"><div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+          <div class="footer-logo-wrap">
+            <img src="../images/fennec-logo.svg" alt="Fennec Tech Labs" class="footer-logo-img"/>
+            <div class="footer-logo-text">
+              <span class="footer-brand-name">Fennec Tech Labs<span class="footer-brand-dot">.</span></span>
+              <span class="footer-brand-tagline">Design<span class="footer-bull">•</span>Develop<span class="footer-bull">•</span>Deploy</span>
             </div>
-            <p>
-              Intelligent, scalable digital solutions across software, web, and
-              AI. Advancing Gen AI & LLMs.
-            </p>
           </div>
-          <div class="footer-col">
-            <h4>Company</h4>
-            <ul>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="portfolio.html">Our Work</a></li>
-              <li><a href="blog.html">Blog</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>Services</h4>
-            <ul>
-              <li><a href="services.html">UI/UX Design</a></li>
-              <li><a href="services.html">Web Dev</a></li>
-              <li><a href="services.html">AI & Gen AI</a></li>
-              <li><a href="services.html">Cloud</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>Reach Us</h4>
-            <ul>
-              <li>
-                <a href="mailto:hello@fennectechlabs.com"
-                  >hello@fennectechlabs.com</a
-                >
-              </li>
-              <li><a href="contact.html">YRPSphere</a></li>
-            </ul>
-          </div>
+          <p>Intelligent, scalable digital solutions across software, web, and AI. Advancing Gen AI & LLMs.</p>
         </div>
-        <div class="footer-bottom">
-          <div class="footer-copy">
-            © 2025 Fennec Tech Labs. Made with <span>♥</span> in India.
-          </div>
-          <div class="footer-socials">
-            <a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="portfolio.html">Our Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">UI/UX Design</a></li><li><a href="services.html">Web Dev</a></li><li><a href="services.html">AI & Gen AI</a></li><li><a href="services.html">Cloud</a></li></ul></div>
+      <div class="footer-col"><h4>Reach Us</h4><ul><li><a href="mailto:hello@fennectechlabs.com">hello@fennectechlabs.com</a></li><li><a href="contact.html">YRPSphere</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2025 Fennec Tech Labs. Made with <span>♥</span> in India.</div><div class="footer-socials"><a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a></div></div>
+  </div></footer>
 
-    <script src="../js/global.js"></script>
-    <script>
-      const SHEET_URL =
-        "https://script.google.com/macros/s/AKfycbzmyO9-6W6xzQlaZLF8-ejCDDI7e7ID9I5Fd7TgjD6kwbdwnH2TH1Vf1HSTzSR_udxKvQ/exec";
+  <script src="../js/global.js"></script>
+  <script>
+  const SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
-      async function submitForm(e) {
-        e.preventDefault();
-        const btn = document.getElementById("submitBtn");
-        btn.disabled = true;
-        btn.textContent = "Sending...";
+  async function submitForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
 
-        const f = document.getElementById("contactForm");
-        const payload = {
-          source: "Contact Page",
-          firstName: f.firstName.value.trim(),
-          lastName: f.lastName.value.trim(),
-          email: f.email.value.trim(),
-          phone: f.phone.value.trim(),
-          company: f.company.value.trim(),
-          service: f.service.value,
-          message: f.message.value.trim(),
-          source_detail: f.source_detail.value.trim(),
-          timestamp: new Date().toISOString(),
-        };
+    const f = document.getElementById('contactForm');
+    const payload = {
+      source:        'Contact Page',
+      firstName:     f.firstName.value.trim(),
+      lastName:      f.lastName.value.trim(),
+      email:         f.email.value.trim(),
+      phone:         f.phone.value.trim(),
+      company:       f.company.value.trim(),
+      service:       f.service.value,
+      message:       f.message.value.trim(),
+      source_detail: f.source_detail.value.trim(),
+      timestamp:     new Date().toISOString()
+    };
 
-        try {
-          await fetch(SHEET_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-          showToast("Message sent! We'll reply within 24 hours. 🦊", "✓");
-          f.reset();
-        } catch (e) {
-          showToast(
-            "Something went wrong. Email us at hello@fennectechlabs.com",
-            "⚠️",
-          );
-        } finally {
-          btn.disabled = false;
-          btn.textContent = "Send Message →";
-        }
-      }
-    </script>
-  </body>
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      showToast("Message sent! We'll reply within 24 hours. 🦊", '✓');
+      f.reset();
+    } catch(e) {
+      showToast('Something went wrong. Email us at hello@fennectechlabs.com', '⚠️');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Message →';
+    }
+  }
+</script>
+</body>
 </html>

@@ -260,7 +260,46 @@
       .tl-item:nth-child(odd) .tl-empty,.tl-item:nth-child(even) .tl-empty{display:none;}
       .tl-dot{grid-column:1;}
       .why-cards{grid-template-columns:1fr;}
-      .yrp-hero{padding:140px 24px 80px;}
+      .yrp-hero{padding:120px 20px 60px;}
+      .yrp-inner{padding:36px 24px;}
+    }
+    @media(max-width:600px){
+      .yrp-hero{padding:100px 16px 48px;}
+      .yrp-headline{letter-spacing:-2px;}
+      .yrp-sub{font-size:15px;}
+      .hero-actions{flex-direction:column;width:100%;}
+      .hero-actions .btn-yrp{width:100%;justify-content:center;}
+      .hero-card{padding:24px 18px;}
+      .stat-row{grid-template-columns:repeat(3,1fr);gap:8px;}
+      .hstat{padding:12px 8px;}
+      .hstat-n{font-size:22px;}
+      .stats-inner{grid-template-columns:repeat(2,1fr);}
+      .stat-item{padding:28px 16px;}
+      .stat-n{font-size:36px;}
+      .why-band,.learn-band,.placement-band,.syllabus-band{padding:60px 0;}
+      .why-cards{grid-template-columns:1fr;gap:12px;}
+      .why-card{padding:20px;}
+      .syllabus-grid{gap:14px;}
+      .phase-card{border-radius:12px;}
+      .phase-header{padding:16px 18px 14px;flex-direction:column;align-items:flex-start;gap:8px;}
+      .phase-body{padding:14px 18px 18px;}
+      .learn-card{flex-direction:column;gap:12px;padding:24px 18px;}
+      .placement-grid{gap:14px;}
+      .placement-card{padding:24px 18px;}
+      .placement-summary{grid-template-columns:repeat(2,1fr);gap:12px;}
+      .batch-inner{gap:32px;}
+      .batch-info-card,.apply-card{padding:28px 20px;}
+      .bic-rows{gap:10px;}
+      .bic-row{flex-direction:column;align-items:flex-start;gap:4px;padding:10px 12px;}
+      .ac-form{gap:10px;}
+      .yrp-cta{padding:60px 0;}
+      .yrp-cta-title{letter-spacing:-1.5px;}
+      .yrp-inner{padding:28px 16px;}
+      .yrp-stats{grid-template-columns:repeat(2,1fr);gap:12px;}
+    }
+    @media(max-width:480px){
+      .ticker-item{padding:0 20px;font-size:11px;}
+      .nav-right .btn-yrp{display:none;}
     }
   </style>
 </head>
@@ -777,7 +816,7 @@
 
   <script src="../js/global.js"></script>
   <script>
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzmyO9-6W6xzQlaZLF8-ejCDDI7e7ID9I5Fd7TgjD6kwbdwnH2TH1Vf1HSTzSR_udxKvQ/exec';
+  const SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
   async function submitApply(e) {
     e.preventDefault();

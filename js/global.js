@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Animated Grid Canvas ──────────────────
   const canvas = document.getElementById('grid-canvas');
-  if (canvas) {
+  // Skip canvas on mobile — saves battery and CPU
+  if (canvas && window.innerWidth > 768) {
     const ctx = canvas.getContext('2d');
     const resize = () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; };
     resize(); window.addEventListener('resize', resize);
@@ -94,12 +95,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const ham=document.querySelector('.nav-hamburger');
   const navLinks=document.querySelector('.nav-links');
   if(ham&&navLinks){
-    ham.addEventListener('click',()=>{
-      const open=navLinks.style.display==='flex';
-      navLinks.style.cssText=open?'':
-        'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(6,6,8,.97);padding:24px 32px;border-bottom:1px solid rgba(196,81,31,.2);gap:20px;z-index:199;';
+    let menuOpen=false;
+    function toggleMenu(force){
+      menuOpen = force !== undefined ? force : !menuOpen;
+      if(menuOpen){
+        navLinks.style.cssText='display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(6,6,8,.97);padding:100px 32px 40px;gap:28px;z-index:198;justify-content:center;align-items:center;';
+        ham.querySelector('span:nth-child(1)').style.cssText='transform:rotate(45deg) translate(5px,5px);';
+        ham.querySelector('span:nth-child(2)').style.cssText='opacity:0;';
+        ham.querySelector('span:nth-child(3)').style.cssText='transform:rotate(-45deg) translate(5px,-5px);';
+        navLinks.querySelectorAll('a').forEach(a=>{a.style.cssText='font-size:22px;font-family:Syne,sans-serif;font-weight:700;color:#ede9e5;';});
+      } else {
+        navLinks.style.cssText='';
+        ham.querySelectorAll('span').forEach(s=>s.style.cssText='');
+      }
+    }
+    ham.addEventListener('click',()=>toggleMenu());
+    // Close on link click
+    navLinks.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click',()=>toggleMenu(false));
+    });
+    // Close on outside click
+    document.addEventListener('click',e=>{
+      if(menuOpen && !ham.contains(e.target) && !navLinks.contains(e.target)) toggleMenu(false);
     });
   }
+
 
   // ── Scroll Reveal ─────────────────────────
   const obs=new IntersectionObserver(entries=>{

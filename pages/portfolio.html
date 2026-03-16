@@ -40,8 +40,20 @@
     .t5{background:linear-gradient(135deg,#0e0e06,#20200a,rgba(180,180,31,.1));}
     .t6{background:linear-gradient(135deg,#06100e,#0a2822,rgba(31,180,160,.1));}
 
-    @media(max-width:768px){.portfolio-grid{grid-template-columns:1fr;}.portfolio-card.featured{grid-column:1;display:flex;}}
-    @media(max-width:768px){.portfolio-card.featured .card-thumb{min-height:200px;}}
+    @media(max-width:768px){
+      .portfolio-grid{grid-template-columns:1fr;}
+      .portfolio-card.featured{grid-column:1;display:flex;}
+      .portfolio-card.featured .card-thumb{min-height:200px;}
+      .filter-bar{gap:8px;}
+      .filter-btn{font-size:10px;padding:6px 14px;}
+      .card-body{padding:20px;}
+      .card-title{font-size:17px;}
+      .portfolio-card.featured .card-title{font-size:20px;}
+    }
+    @media(max-width:480px){
+      .filter-bar{flex-wrap:wrap;}
+      .filter-btn{flex:1;min-width:calc(50% - 4px);text-align:center;}
+    }
   </style>
 </head>
 <body>
