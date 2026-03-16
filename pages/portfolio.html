@@ -1,217 +1,673 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Portfolio — Fennec Tech Labs</title>
-  <link rel="stylesheet" href="../css/global.css"/>
-  <style>
-    .filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:48px;margin-bottom:56px;}
-    .filter-btn{font-family:'Syne',sans-serif;font-size:11.5px;font-weight:600;padding:8px 20px;border:1px solid var(--border-sub);border-radius:100px;color:var(--text-muted);background:none;cursor:none;letter-spacing:.5px;text-transform:uppercase;transition:all var(--transition);}
-    .filter-btn.active,.filter-btn:hover{border-color:var(--fox);color:var(--fox-bright);background:var(--fox-dim);}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Portfolio — Fennec Tech Labs</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <style>
+      .filter-bar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 48px;
+        margin-bottom: 56px;
+      }
+      .filter-btn {
+        font-family: "Syne", sans-serif;
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 8px 20px;
+        border: 1px solid var(--border-sub);
+        border-radius: 100px;
+        color: var(--text-muted);
+        background: none;
+        cursor: none;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: all var(--transition);
+      }
+      .filter-btn.active,
+      .filter-btn:hover {
+        border-color: var(--fox);
+        color: var(--fox-bright);
+        background: var(--fox-dim);
+      }
 
-    .portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
-    .portfolio-card{background:var(--surface);border:1px solid var(--border-sub);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition);cursor:none;position:relative;display:flex;flex-direction:column;}
-    .portfolio-card:hover{border-color:var(--fox);transform:translateY(-4px);box-shadow:0 24px 60px var(--shadow);}
-    .portfolio-card.featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;}
-    .card-thumb{height:240px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
-    .portfolio-card.featured .card-thumb{height:100%;min-height:300px;}
-    .card-thumb-bg{position:absolute;inset:0;transition:transform .5s;}
-    .portfolio-card:hover .card-thumb-bg{transform:scale(1.04);}
-    .card-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(6,6,8,.8) 100%);}
-    .card-badge{position:absolute;top:18px;left:18px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:100px;background:rgba(6,6,8,.75);border:1px solid var(--border);color:var(--fox-bright);backdrop-filter:blur(8px);}
-    .card-emoji{font-size:60px;position:relative;z-index:1;filter:drop-shadow(0 0 20px rgba(196,81,31,.3));}
-    .portfolio-card.featured .card-emoji{font-size:88px;}
-    .card-body{padding:28px 30px 30px;flex:1;}
-    .card-cat{font-size:10.5px;color:var(--fox);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
-    .card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.2;}
-    .portfolio-card.featured .card-title{font-size:26px;}
-    .card-desc{font-size:13.5px;color:var(--text-muted);line-height:1.7;margin-bottom:20px;font-weight:300;}
-    .card-meta{display:flex;gap:20px;flex-wrap:wrap;}
-    .meta-item strong{color:var(--text-muted);display:block;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;font-weight:600;}
-    .meta-item span{font-size:13px;color:var(--text-dim);}
-    .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
-    .ctag{font-size:10.5px;padding:3px 10px;border:1px solid var(--border-sub);border-radius:100px;color:var(--text-dim);}
-    .portfolio-card:hover .ctag{border-color:rgba(196,81,31,.3);color:var(--fox-bright);}
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+      }
+      .portfolio-card {
+        background: var(--surface);
+        border: 1px solid var(--border-sub);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all var(--transition);
+        cursor: none;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      .portfolio-card:hover {
+        border-color: var(--fox);
+        transform: translateY(-4px);
+        box-shadow: 0 24px 60px var(--shadow);
+      }
+      .portfolio-card.featured {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .card-thumb {
+        height: 240px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .portfolio-card.featured .card-thumb {
+        height: 100%;
+        min-height: 300px;
+      }
+      .card-thumb-bg {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.5s;
+      }
+      .portfolio-card:hover .card-thumb-bg {
+        transform: scale(1.04);
+      }
+      .card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 30%,
+          rgba(6, 6, 8, 0.8) 100%
+        );
+      }
+      .card-badge {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        font-family: "Syne", sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 100px;
+        background: rgba(6, 6, 8, 0.75);
+        border: 1px solid var(--border);
+        color: var(--fox-bright);
+        backdrop-filter: blur(8px);
+      }
+      .card-emoji {
+        font-size: 60px;
+        position: relative;
+        z-index: 1;
+        filter: drop-shadow(0 0 20px rgba(196, 81, 31, 0.3));
+      }
+      .portfolio-card.featured .card-emoji {
+        font-size: 88px;
+      }
+      .card-body {
+        padding: 28px 30px 30px;
+        flex: 1;
+      }
+      .card-cat {
+        font-size: 10.5px;
+        color: var(--fox);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .card-title {
+        font-family: "Syne", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 10px;
+        line-height: 1.2;
+      }
+      .portfolio-card.featured .card-title {
+        font-size: 26px;
+      }
+      .card-desc {
+        font-size: 13.5px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 20px;
+        font-weight: 300;
+      }
+      .card-meta {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .meta-item strong {
+        color: var(--text-muted);
+        display: block;
+        font-size: 10.5px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+        font-weight: 600;
+      }
+      .meta-item span {
+        font-size: 13px;
+        color: var(--text-dim);
+      }
+      .card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 16px;
+      }
+      .ctag {
+        font-size: 10.5px;
+        padding: 3px 10px;
+        border: 1px solid var(--border-sub);
+        border-radius: 100px;
+        color: var(--text-dim);
+      }
+      .portfolio-card:hover .ctag {
+        border-color: rgba(196, 81, 31, 0.3);
+        color: var(--fox-bright);
+      }
 
-    .t1{background:linear-gradient(135deg,#120a06,#2e1208,rgba(196,81,31,.15));}
-    .t2{background:linear-gradient(135deg,#060a14,#0a1428,rgba(31,79,196,.12));}
-    .t3{background:linear-gradient(135deg,#070e0a,#0b2014,rgba(31,196,78,.1));}
-    .t4{background:linear-gradient(135deg,#0e0814,#1e1030,rgba(120,31,196,.12));}
-    .t5{background:linear-gradient(135deg,#0e0e06,#20200a,rgba(180,180,31,.1));}
-    .t6{background:linear-gradient(135deg,#06100e,#0a2822,rgba(31,180,160,.1));}
+      .t1 {
+        background: linear-gradient(
+          135deg,
+          #120a06,
+          #2e1208,
+          rgba(196, 81, 31, 0.15)
+        );
+      }
+      .t2 {
+        background: linear-gradient(
+          135deg,
+          #060a14,
+          #0a1428,
+          rgba(31, 79, 196, 0.12)
+        );
+      }
+      .t3 {
+        background: linear-gradient(
+          135deg,
+          #070e0a,
+          #0b2014,
+          rgba(31, 196, 78, 0.1)
+        );
+      }
+      .t4 {
+        background: linear-gradient(
+          135deg,
+          #0e0814,
+          #1e1030,
+          rgba(120, 31, 196, 0.12)
+        );
+      }
+      .t5 {
+        background: linear-gradient(
+          135deg,
+          #0e0e06,
+          #20200a,
+          rgba(180, 180, 31, 0.1)
+        );
+      }
+      .t6 {
+        background: linear-gradient(
+          135deg,
+          #06100e,
+          #0a2822,
+          rgba(31, 180, 160, 0.1)
+        );
+      }
 
-    @media(max-width:768px){
-      .portfolio-grid{grid-template-columns:1fr;}
-      .portfolio-card.featured{grid-column:1;display:flex;}
-      .portfolio-card.featured .card-thumb{min-height:200px;}
-      .filter-bar{gap:8px;}
-      .filter-btn{font-size:10px;padding:6px 14px;}
-      .card-body{padding:20px;}
-      .card-title{font-size:17px;}
-      .portfolio-card.featured .card-title{font-size:20px;}
-    }
-    @media(max-width:480px){
-      .filter-bar{flex-wrap:wrap;}
-      .filter-btn{flex:1;min-width:calc(50% - 4px);text-align:center;}
-    }
-  </style>
-</head>
-<body>
-  <div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
-  <canvas id="grid-canvas"></canvas>
-  <nav>
-    <a href="../index.html" class="fnc-nav-logo">
-      <span class="fnc-spark"></span><span class="fnc-spark"></span>
-      <span class="fnc-spark"></span><span class="fnc-spark"></span>
-      <span class="fnc-spark"></span>
-      <img src="../images/fennec-logo.svg" class="fnc-nav-img" alt="Fennec Tech Labs"/>
-      <div class="fnc-nav-text">
-        <span class="fnc-nav-name">Fennec Tech Labs<span class="fnc-dot">.</span></span>
-        <span class="fnc-nav-tagline">Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull">•</span>Deploy</span>
+      @media (max-width: 768px) {
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+        }
+        .portfolio-card.featured {
+          grid-column: 1;
+          display: flex;
+        }
+        .portfolio-card.featured .card-thumb {
+          min-height: 200px;
+        }
+        .filter-bar {
+          gap: 8px;
+        }
+        .filter-btn {
+          font-size: 10px;
+          padding: 6px 14px;
+        }
+        .card-body {
+          padding: 20px;
+        }
+        .card-title {
+          font-size: 17px;
+        }
+        .portfolio-card.featured .card-title {
+          font-size: 20px;
+        }
+      }
+      @media (max-width: 480px) {
+        .filter-bar {
+          flex-wrap: wrap;
+        }
+        .filter-btn {
+          flex: 1;
+          min-width: calc(50% - 4px);
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <canvas id="grid-canvas"></canvas>
+    <nav>
+      <a href="../index.html" class="fnc-nav-logo">
+        <span class="fnc-spark"></span><span class="fnc-spark"></span>
+        <span class="fnc-spark"></span><span class="fnc-spark"></span>
+        <span class="fnc-spark"></span>
+        <img
+          src="../images/fennec-logo.svg"
+          class="fnc-nav-img"
+          alt="Fennec Tech Labs"
+        />
+        <div class="fnc-nav-text">
+          <span class="fnc-nav-name"
+            >Fennec Tech Labs<span class="fnc-dot">.</span></span
+          >
+          <span class="fnc-nav-tagline"
+            >Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull"
+              >•</span
+            >Deploy</span
+          >
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html" class="active">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="yrpsphere.html">YRPSphere</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+        <a href="contact.html" class="nav-cta">Let's Talk →</a>
+        <button class="nav-hamburger">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li><li><a href="services.html">Services</a></li>
-      <li><a href="portfolio.html" class="active">Work</a></li><li><a href="about.html">About</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="yrpsphere.html">YRPSphere</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
-      <a href="contact.html" class="nav-cta">Let's Talk →</a>
-      <button class="nav-hamburger"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
+    </nav>
 
-  <div class="section-wrap"><div class="container">
-    <div class="page-hero">
-      <div class="section-label reveal" style="margin-bottom:14px;">Our Work</div>
-      <h1 class="section-title reveal">Products and systems<br>we've shipped to the world.</h1>
-      <p class="page-hero-sub reveal">A curated selection of our most impactful projects — from AI document intelligence to enterprise data platforms and full-stack SaaS applications.</p>
-    </div>
-
-    <div class="filter-bar reveal">
-      <button class="filter-btn active" onclick="filterProjects('all',this)">All Projects</button>
-      <button class="filter-btn" onclick="filterProjects('ai',this)">AI & Gen AI</button>
-      <button class="filter-btn" onclick="filterProjects('automation',this)">Automation</button>
-      <button class="filter-btn" onclick="filterProjects('fullstack',this)">Full-Stack</button>
-      <button class="filter-btn" onclick="filterProjects('data',this)">Data Engineering</button>
-    </div>
-
-    <div class="portfolio-grid" id="portfolioGrid">
-
-      <!-- FEATURED -->
-      <div class="portfolio-card featured reveal" data-cat="ai">
-        <div class="card-thumb"><div class="card-thumb-bg t1"></div><div class="card-overlay"></div><div class="card-emoji">🏭</div><span class="card-badge">⭐ Featured</span></div>
-        <div class="card-body">
-          <div class="card-cat">AI · Industrial · Document Intelligence</div>
-          <div class="card-title">P&ID Extraction & Intelligence Engine</div>
-          <p class="card-desc">An AI-powered system that automatically parses complex Piping & Instrumentation Diagrams (P&IDs) and extracts structured data — instruments, equipment, flow paths, tags — replacing hundreds of hours of manual engineering work. Deployed for an industrial manufacturing client.</p>
-          <div class="card-meta">
-            <div class="meta-item"><strong>Domain</strong><span>Industrial / Manufacturing</span></div>
-            <div class="meta-item"><strong>Stack</strong><span>Python, Computer Vision, LLMs</span></div>
-            <div class="meta-item"><strong>Impact</strong><span>~300 hrs/month saved</span></div>
+    <div class="section-wrap">
+      <div class="container">
+        <div class="page-hero">
+          <div class="section-label reveal" style="margin-bottom: 14px">
+            Our Work
           </div>
-          <div class="card-tags"><span class="ctag">Computer Vision</span><span class="ctag">LLM</span><span class="ctag">Python</span><span class="ctag">FastAPI</span><span class="ctag">Document AI</span></div>
+          <h1 class="section-title reveal">
+            Products and systems<br />we've shipped to the world.
+          </h1>
+          <p class="page-hero-sub reveal">
+            A curated selection of our most impactful projects — from AI
+            document intelligence to enterprise data platforms and full-stack
+            SaaS applications.
+          </p>
         </div>
-      </div>
 
-      <!-- BOM -->
-      <div class="portfolio-card reveal" data-cat="ai automation">
-        <div class="card-thumb"><div class="card-thumb-bg t2"></div><div class="card-overlay"></div><div class="card-emoji">📋</div></div>
-        <div class="card-body">
-          <div class="card-cat">AI · Automation · Manufacturing</div>
-          <div class="card-title">BOM Intelligence & Reconciliation System</div>
-          <p class="card-desc">Automated Bill of Materials extraction, validation, and reconciliation across multiple engineering document formats. Reduced BOM processing errors by 94% and cut turnaround time from days to minutes.</p>
-          <div class="card-meta"><div class="meta-item"><strong>Stack</strong><span>Python, LangChain, PostgreSQL</span></div><div class="meta-item"><strong>Impact</strong><span>94% error reduction</span></div></div>
-          <div class="card-tags"><span class="ctag">LangChain</span><span class="ctag">RAG</span><span class="ctag">Python</span><span class="ctag">Automation</span></div>
+        <div class="filter-bar reveal">
+          <button
+            class="filter-btn active"
+            onclick="filterProjects('all', this)"
+          >
+            All Projects
+          </button>
+          <button class="filter-btn" onclick="filterProjects('ai', this)">
+            AI & Gen AI
+          </button>
+          <button
+            class="filter-btn"
+            onclick="filterProjects('automation', this)"
+          >
+            Automation
+          </button>
+          <button
+            class="filter-btn"
+            onclick="filterProjects('fullstack', this)"
+          >
+            Full-Stack
+          </button>
+          <button class="filter-btn" onclick="filterProjects('data', this)">
+            Data Engineering
+          </button>
         </div>
-      </div>
 
-      <!-- DATA PLATFORM -->
-      <div class="portfolio-card reveal" data-cat="data fullstack">
-        <div class="card-thumb"><div class="card-thumb-bg t3"></div><div class="card-overlay"></div><div class="card-emoji">📊</div></div>
-        <div class="card-body">
-          <div class="card-cat">Data Engineering · SaaS</div>
-          <div class="card-title">Enterprise Analytics Platform</div>
-          <p class="card-desc">End-to-end data platform with Kafka-based real-time ingestion, dbt transformations, Snowflake warehouse, and a React dashboard. Processes 2M+ events/day for a B2B SaaS company with 50+ enterprise clients.</p>
-          <div class="card-meta"><div class="meta-item"><strong>Stack</strong><span>Kafka, dbt, Snowflake, React</span></div><div class="meta-item"><strong>Scale</strong><span>2M+ events/day</span></div></div>
-          <div class="card-tags"><span class="ctag">Kafka</span><span class="ctag">dbt</span><span class="ctag">Snowflake</span><span class="ctag">Airflow</span><span class="ctag">React</span></div>
-        </div>
-      </div>
-
-      <!-- TEST AUTOMATION -->
-      <div class="portfolio-card reveal" data-cat="automation">
-        <div class="card-thumb"><div class="card-thumb-bg t4"></div><div class="card-overlay"></div><div class="card-emoji">🧪</div></div>
-        <div class="card-body">
-          <div class="card-cat">Automation · QA Engineering</div>
-          <div class="card-title">Enterprise Test Automation Framework</div>
-          <p class="card-desc">A scalable Playwright + Pytest automation framework for a HCM platform with 800+ automated test cases, parallel execution, and full CI/CD integration via GitHub Actions. Reduced release cycle from 2 weeks to 2 days.</p>
-          <div class="card-meta"><div class="meta-item"><strong>Stack</strong><span>Playwright, Pytest, GitHub Actions</span></div><div class="meta-item"><strong>Impact</strong><span>800+ tests, 85% faster releases</span></div></div>
-          <div class="card-tags"><span class="ctag">Playwright</span><span class="ctag">Pytest</span><span class="ctag">CI/CD</span><span class="ctag">Docker</span></div>
-        </div>
-      </div>
-
-      <!-- FULLSTACK -->
-      <div class="portfolio-card reveal" data-cat="fullstack ai">
-        <div class="card-thumb"><div class="card-thumb-bg t5"></div><div class="card-overlay"></div><div class="card-emoji">💬</div></div>
-        <div class="card-body">
-          <div class="card-cat">Full-Stack · AI · Enterprise</div>
-          <div class="card-title">Internal Knowledge Base with LLM Q&A</div>
-          <p class="card-desc">A Next.js web application with an embedded RAG-powered Q&A system that lets employees query across internal documentation, policies, and knowledge assets — with source-cited answers and admin controls.</p>
-          <div class="card-meta"><div class="meta-item"><strong>Stack</strong><span>Next.js, FastAPI, Pinecone, OpenAI</span></div><div class="meta-item"><strong>Users</strong><span>500+ internal users</span></div></div>
-          <div class="card-tags"><span class="ctag">Next.js</span><span class="ctag">RAG</span><span class="ctag">OpenAI</span><span class="ctag">Pinecone</span><span class="ctag">FastAPI</span></div>
-        </div>
-      </div>
-
-      <!-- ETL -->
-      <div class="portfolio-card reveal" data-cat="data automation">
-        <div class="card-thumb"><div class="card-thumb-bg t6"></div><div class="card-overlay"></div><div class="card-emoji">🔄</div></div>
-        <div class="card-body">
-          <div class="card-cat">Data Engineering · Automation</div>
-          <div class="card-title">Multi-Source ETL Pipeline & Data Warehouse</div>
-          <p class="card-desc">Designed and built a unified data warehouse aggregating data from 12+ source systems using Apache Airflow-orchestrated ETL pipelines, dbt transformations, and a BigQuery backend serving executive BI dashboards.</p>
-          <div class="card-meta"><div class="meta-item"><strong>Stack</strong><span>Airflow, dbt, BigQuery, Python</span></div><div class="meta-item"><strong>Sources</strong><span>12+ integrated systems</span></div></div>
-          <div class="card-tags"><span class="ctag">Airflow</span><span class="ctag">dbt</span><span class="ctag">BigQuery</span><span class="ctag">Python</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="text-align:center;padding:80px 0 40px;" class="reveal">
-      <p style="font-size:15px;color:var(--text-muted);margin-bottom:24px;">Have a similar challenge to solve?</p>
-      <a href="contact.html" class="btn btn-primary">Let's Talk →</a>
-    </div>
-  </div></div>
-
-  <footer class="section-wrap"><div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-          <div class="footer-logo-wrap">
-            <img src="../images/fennec-logo.svg" alt="Fennec Tech Labs" class="footer-logo-img"/>
-            <div class="footer-logo-text">
-              <span class="footer-brand-name">Fennec Tech Labs<span class="footer-brand-dot">.</span></span>
-              <span class="footer-brand-tagline">Design<span class="footer-bull">•</span>Develop<span class="footer-bull">•</span>Deploy</span>
+        <div class="portfolio-grid" id="portfolioGrid">
+          <!-- FEATURED -->
+          <div class="portfolio-card featured reveal" data-cat="ai">
+            <div class="card-thumb">
+              <div class="card-thumb-bg t1"></div>
+              <div class="card-overlay"></div>
+              <div class="card-emoji">🏭</div>
+              <span class="card-badge">⭐ Featured</span>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">
+                AI · Industrial · Document Intelligence
+              </div>
+              <div class="card-title">
+                P&ID Extraction & Intelligence Engine
+              </div>
+              <p class="card-desc">
+                An AI-powered system that automatically parses complex Piping &
+                Instrumentation Diagrams (P&IDs) and extracts structured data —
+                instruments, equipment, flow paths, tags — replacing hundreds of
+                hours of manual engineering work. Deployed for an industrial
+                manufacturing client.
+              </p>
+              <div class="card-meta">
+                <div class="meta-item">
+                  <strong>Domain</strong><span>Industrial / Manufacturing</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Stack</strong
+                  ><span>Python, Computer Vision, LLMs</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Impact</strong><span>~300 hrs/month saved</span>
+                </div>
+              </div>
+              <div class="card-tags">
+                <span class="ctag">Computer Vision</span
+                ><span class="ctag">LLM</span><span class="ctag">Python</span
+                ><span class="ctag">FastAPI</span
+                ><span class="ctag">Document AI</span>
+              </div>
             </div>
           </div>
-          <p>Intelligent, scalable digital solutions across software, web, AI, automation, and data engineering.</p>
+
+          <!-- BOM -->
+          <div class="portfolio-card reveal" data-cat="ai automation">
+            <div class="card-thumb">
+              <div class="card-thumb-bg t2"></div>
+              <div class="card-overlay"></div>
+              <div class="card-emoji">📋</div>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">AI · Automation · Manufacturing</div>
+              <div class="card-title">
+                BOM Intelligence & Reconciliation System
+              </div>
+              <p class="card-desc">
+                Automated Bill of Materials extraction, validation, and
+                reconciliation across multiple engineering document formats.
+                Reduced BOM processing errors by 94% and cut turnaround time
+                from days to minutes.
+              </p>
+              <div class="card-meta">
+                <div class="meta-item">
+                  <strong>Stack</strong
+                  ><span>Python, LangChain, PostgreSQL</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Impact</strong><span>94% error reduction</span>
+                </div>
+              </div>
+              <div class="card-tags">
+                <span class="ctag">LangChain</span><span class="ctag">RAG</span
+                ><span class="ctag">Python</span
+                ><span class="ctag">Automation</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- DATA PLATFORM -->
+          <div class="portfolio-card reveal" data-cat="data fullstack">
+            <div class="card-thumb">
+              <div class="card-thumb-bg t3"></div>
+              <div class="card-overlay"></div>
+              <div class="card-emoji">📊</div>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">Data Engineering · SaaS</div>
+              <div class="card-title">Enterprise Analytics Platform</div>
+              <p class="card-desc">
+                End-to-end data platform with Kafka-based real-time ingestion,
+                dbt transformations, Snowflake warehouse, and a React dashboard.
+                Processes 2M+ events/day for a B2B SaaS company with 50+
+                enterprise clients.
+              </p>
+              <div class="card-meta">
+                <div class="meta-item">
+                  <strong>Stack</strong
+                  ><span>Kafka, dbt, Snowflake, React</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Scale</strong><span>2M+ events/day</span>
+                </div>
+              </div>
+              <div class="card-tags">
+                <span class="ctag">Kafka</span><span class="ctag">dbt</span
+                ><span class="ctag">Snowflake</span
+                ><span class="ctag">Airflow</span
+                ><span class="ctag">React</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TEST AUTOMATION -->
+          <div class="portfolio-card reveal" data-cat="automation">
+            <div class="card-thumb">
+              <div class="card-thumb-bg t4"></div>
+              <div class="card-overlay"></div>
+              <div class="card-emoji">🧪</div>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">Automation · QA Engineering</div>
+              <div class="card-title">Enterprise Test Automation Framework</div>
+              <p class="card-desc">
+                A scalable Playwright + Pytest automation framework for a HCM
+                platform with 800+ automated test cases, parallel execution, and
+                full CI/CD integration via GitHub Actions. Reduced release cycle
+                from 2 weeks to 2 days.
+              </p>
+              <div class="card-meta">
+                <div class="meta-item">
+                  <strong>Stack</strong
+                  ><span>Playwright, Pytest, GitHub Actions</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Impact</strong
+                  ><span>800+ tests, 85% faster releases</span>
+                </div>
+              </div>
+              <div class="card-tags">
+                <span class="ctag">Playwright</span
+                ><span class="ctag">Pytest</span><span class="ctag">CI/CD</span
+                ><span class="ctag">Docker</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FULLSTACK -->
+          <div class="portfolio-card reveal" data-cat="fullstack ai">
+            <div class="card-thumb">
+              <div class="card-thumb-bg t5"></div>
+              <div class="card-overlay"></div>
+              <div class="card-emoji">💬</div>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">Full-Stack · AI · Enterprise</div>
+              <div class="card-title">Internal Knowledge Base with LLM Q&A</div>
+              <p class="card-desc">
+                A Next.js web application with an embedded RAG-powered Q&A
+                system that lets employees query across internal documentation,
+                policies, and knowledge assets — with source-cited answers and
+                admin controls.
+              </p>
+              <div class="card-meta">
+                <div class="meta-item">
+                  <strong>Stack</strong
+                  ><span>Next.js, FastAPI, Pinecone, OpenAI</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Users</strong><span>500+ internal users</span>
+                </div>
+              </div>
+              <div class="card-tags">
+                <span class="ctag">Next.js</span><span class="ctag">RAG</span
+                ><span class="ctag">OpenAI</span
+                ><span class="ctag">Pinecone</span
+                ><span class="ctag">FastAPI</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ETL -->
+          <div class="portfolio-card reveal" data-cat="data automation">
+            <div class="card-thumb">
+              <div class="card-thumb-bg t6"></div>
+              <div class="card-overlay"></div>
+              <div class="card-emoji">🔄</div>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">Data Engineering · Automation</div>
+              <div class="card-title">
+                Multi-Source ETL Pipeline & Data Warehouse
+              </div>
+              <p class="card-desc">
+                Designed and built a unified data warehouse aggregating data
+                from 12+ source systems using Apache Airflow-orchestrated ETL
+                pipelines, dbt transformations, and a BigQuery backend serving
+                executive BI dashboards.
+              </p>
+              <div class="card-meta">
+                <div class="meta-item">
+                  <strong>Stack</strong
+                  ><span>Airflow, dbt, BigQuery, Python</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Sources</strong><span>12+ integrated systems</span>
+                </div>
+              </div>
+              <div class="card-tags">
+                <span class="ctag">Airflow</span><span class="ctag">dbt</span
+                ><span class="ctag">BigQuery</span
+                ><span class="ctag">Python</span>
+              </div>
+            </div>
+          </div>
         </div>
-      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="portfolio.html">Our Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">AI & Gen AI</a></li><li><a href="services.html">Automation</a></li><li><a href="services.html">Full-Stack Dev</a></li><li><a href="services.html">Data Engineering</a></li></ul></div>
-      <div class="footer-col"><h4>Reach Us</h4><ul><li><a href="mailto:hello@fennectechlabs.com">hello@fennectechlabs.com</a></li><li><a href="contact.html">YRPSphere</a></li></ul></div>
+
+        <div style="text-align: center; padding: 80px 0 40px" class="reveal">
+          <p
+            style="
+              font-size: 15px;
+              color: var(--text-muted);
+              margin-bottom: 24px;
+            "
+          >
+            Have a similar challenge to solve?
+          </p>
+          <a href="contact.html" class="btn btn-primary">Let's Talk →</a>
+        </div>
+      </div>
     </div>
-    <div class="footer-bottom"><div class="footer-copy">© 2025 Fennec Tech Labs. Made with <span>♥</span> in India.</div><div class="footer-socials"><a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a></div></div>
-  </div></footer>
-  <script src="../js/global.js"></script>
-  <script>
-    function filterProjects(cat, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.portfolio-card').forEach(card => {
-        const cats = card.dataset.cat || '';
-        card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
-      });
-    }
-  </script>
-</body>
+
+    <footer class="section-wrap">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo-wrap">
+              <img
+                src="../images/fennec-logo.svg"
+                alt="Fennec Tech Labs"
+                class="footer-logo-img"
+              />
+              <div class="footer-logo-text">
+                <span class="footer-brand-name"
+                  >Fennec Tech Labs<span class="footer-brand-dot">.</span></span
+                >
+                <span class="footer-brand-tagline"
+                  >Design<span class="footer-bull">•</span>Develop<span
+                    class="footer-bull"
+                    >•</span
+                  >Deploy</span
+                >
+              </div>
+            </div>
+            <p>
+              Intelligent, scalable digital solutions across software, web, AI,
+              automation, and data engineering.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="portfolio.html">Our Work</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">AI & Gen AI</a></li>
+              <li><a href="services.html">Automation</a></li>
+              <li><a href="services.html">Full-Stack Dev</a></li>
+              <li><a href="services.html">Data Engineering</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Reach Us</h4>
+            <ul>
+              <li>
+                <a href="mailto:contact@fennectechlabs.com"
+                  >contact@fennectechlabs.com</a
+                >
+              </li>
+              <li><a href="yrpsphere.html">YRPSphere</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 Fennec Tech Labs. All Rights Reserved.
+          </div>
+          <!-- <div class="footer-socials">
+            <a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a>
+          </div> -->
+        </div>
+      </div>
+    </footer>
+    <script src="../js/global.js"></script>
+    <script>
+      function filterProjects(cat, btn) {
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".portfolio-card").forEach((card) => {
+          const cats = card.dataset.cat || "";
+          card.style.display =
+            cat === "all" || cats.includes(cat) ? "" : "none";
+        });
+      }
+    </script>
+  </body>
 </html>
