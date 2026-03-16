@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Services — Fennec Tech Labs</title>
+  <link rel="stylesheet" href="../css/global.css"/>
+  <style>
+    .services-full{padding:60px 0 120px;}
+    .service-block{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;padding:80px 0;border-bottom:1px solid var(--border-sub);}
+    .service-block:last-child{border-bottom:none;}
+    .service-block.reverse{direction:rtl;}
+    .service-block.reverse>*{direction:ltr;}
+    .sb-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--fox);font-weight:600;margin-bottom:12px;}
+    .sb-title{font-family:'Syne',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:800;letter-spacing:-2px;line-height:.95;color:var(--text);margin-bottom:18px;}
+    .sb-desc{font-size:15px;color:var(--text-muted);line-height:1.8;font-weight:300;margin-bottom:28px;}
+    .sb-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;}
+    .sb-list li{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--text-muted);}
+    .sb-list li::before{content:'→';color:var(--fox);font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;}
+    .sb-visual{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:48px;text-align:center;position:relative;overflow:hidden;min-height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;}
+    .sb-visual::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,var(--fox-dim),transparent 65%);}
+    .sb-icon-big{font-size:72px;position:relative;z-index:1;filter:drop-shadow(0 0 24px rgba(196,81,31,.3));}
+    .sb-stack{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;position:relative;z-index:1;}
+    .sb-stag{font-size:11px;padding:4px 12px;border:1px solid var(--border);border-radius:100px;color:var(--text-muted);background:rgba(255,255,255,.03);}
+
+    .addons{padding:0 0 100px;}
+    .addons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px;}
+    .addon-card{background:var(--surface);border:1px solid var(--border-sub);border-radius:var(--radius);padding:28px;transition:border-color var(--transition);cursor:none;}
+    .addon-card:hover{border-color:var(--fox);}
+    .addon-icon{font-size:26px;margin-bottom:12px;display:block;}
+    .addon-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .addon-desc{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300;}
+
+    .process-band{padding:80px 0;background:var(--bg2);}
+    .process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative;}
+    .process-steps::before{content:'';position:absolute;top:22px;left:12%;right:12%;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);}
+    .process-step{padding:0 20px;text-align:center;}
+    .step-num{font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;color:var(--fox);letter-spacing:2px;margin-bottom:22px;display:block;}
+    .step-dot{width:12px;height:12px;background:var(--surface);border:2px solid var(--fox);border-radius:50%;margin:0 auto 20px;position:relative;z-index:1;}
+    .step-dot::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:var(--fox-dim);}
+    .step-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .step-desc{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300;}
+
+    @media(max-width:900px){.service-block,.service-block.reverse{grid-template-columns:1fr;direction:ltr;}.addons-grid{grid-template-columns:repeat(2,1fr);}.process-steps{grid-template-columns:repeat(2,1fr);}}
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+  <canvas id="grid-canvas"></canvas>
+  <nav>
+    <a href="../index.html" class="fnc-nav-logo">
+      <span class="fnc-spark"></span><span class="fnc-spark"></span>
+      <span class="fnc-spark"></span><span class="fnc-spark"></span>
+      <span class="fnc-spark"></span>
+      <img src="../images/fennec-logo.svg" class="fnc-nav-img" alt="Fennec Tech Labs"/>
+      <div class="fnc-nav-text">
+        <span class="fnc-nav-name">Fennec Tech Labs<span class="fnc-dot">.</span></span>
+        <span class="fnc-nav-tagline">Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull">•</span>Deploy</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li><li><a href="services.html" class="active">Services</a></li>
+      <li><a href="portfolio.html">Work</a></li><li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="yrpsphere.html">YRPSphere</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+      <a href="contact.html" class="nav-cta">Let's Talk →</a>
+      <button class="nav-hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="section-wrap"><div class="container">
+    <div class="page-hero">
+      <div class="section-label reveal" style="margin-bottom:14px;">Services</div>
+      <h1 class="section-title reveal">Everything you need to build,<br>automate, and scale.</h1>
+      <p class="page-hero-sub reveal">Deep specialization in AI, automation, full-stack development, and data engineering — Design, Develop, Deploy across all four domains.</p>
+    </div>
+
+    <div class="services-full">
+      <!-- AI -->
+      <div class="service-block">
+        <div class="reveal-left">
+          <div class="sb-label">01 / AI & Gen AI</div>
+          <h2 class="sb-title">Production AI systems that solve real problems.</h2>
+          <p class="sb-desc">We don't build demos — we build AI that ships to production. From intelligent document extraction (P&ID, BOM, engineering diagrams) to custom LLM pipelines, RAG systems, and computer vision — our AI work has been deployed at Fortune 500 companies including Corning, Bosch, and GSK.</p>
+          <ul class="sb-list">
+            <li>LLM fine-tuning & Retrieval-Augmented Generation (RAG)</li>
+            <li>Intelligent document processing — P&ID, BOM, PDF extraction</li>
+            <li>Generative AI product features & chatbot integration</li>
+            <li>Computer vision & image recognition systems</li>
+            <li>AI-powered analytics dashboards & reporting</li>
+            <li>OpenAI / Claude / Gemini API integration</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Discuss Your AI Project →</a>
+        </div>
+        <div class="sb-visual reveal-right">
+          <div class="sb-icon-big">🤖</div>
+          <div class="sb-stack">
+            <span class="sb-stag">Python</span><span class="sb-stag">LangChain</span><span class="sb-stag">OpenAI API</span>
+            <span class="sb-stag">Claude API</span><span class="sb-stag">HuggingFace</span><span class="sb-stag">Pinecone</span>
+            <span class="sb-stag">FastAPI</span><span class="sb-stag">PyTorch</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTOMATION -->
+      <div class="service-block reverse">
+        <div class="reveal-right">
+          <div class="sb-label">02 / Automation Engineering</div>
+          <h2 class="sb-title">Eliminate manual work. Scale what matters.</h2>
+          <p class="sb-desc">We design and build automation systems that free your team from repetitive work and let your operations scale without proportional headcount growth. From RPA and test automation to intelligent workflow orchestration and data pipeline automation — we automate the right things the right way.</p>
+          <ul class="sb-list">
+            <li>Robotic Process Automation (RPA) — UI & API-based</li>
+            <li>Test automation frameworks (Selenium, Playwright, Pytest)</li>
+            <li>CI/CD pipeline design and DevOps automation</li>
+            <li>Business workflow automation & orchestration (Airflow)</li>
+            <li>API integration & data sync automation</li>
+            <li>Scheduled jobs, monitoring, and alerting systems</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Automate Your Operations →</a>
+        </div>
+        <div class="sb-visual reveal-left">
+          <div class="sb-icon-big">⚙️</div>
+          <div class="sb-stack">
+            <span class="sb-stag">Python</span><span class="sb-stag">Selenium</span><span class="sb-stag">Playwright</span>
+            <span class="sb-stag">Apache Airflow</span><span class="sb-stag">GitHub Actions</span>
+            <span class="sb-stag">Docker</span><span class="sb-stag">Pytest</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FULLSTACK -->
+      <div class="service-block">
+        <div class="reveal-left">
+          <div class="sb-label">03 / Full-Stack Development</div>
+          <h2 class="sb-title">Web applications built to last and scale.</h2>
+          <p class="sb-desc">Complete web applications from pixel-perfect frontends to robust backend APIs and cloud infrastructure. We own the full stack — React/Next.js frontends, Node.js or Python backends, PostgreSQL databases, authentication, real-time features, and production deployment on AWS or GCP.</p>
+          <ul class="sb-list">
+            <li>React & Next.js web applications (SSR, SSG, SPA)</li>
+            <li>RESTful APIs & GraphQL backends (Node.js, Python/FastAPI)</li>
+            <li>Database design — PostgreSQL, MongoDB, Redis</li>
+            <li>Authentication, authorization & security</li>
+            <li>Real-time features — WebSockets, live dashboards</li>
+            <li>Cloud deployment on AWS / GCP with CI/CD</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Build Your Application →</a>
+        </div>
+        <div class="sb-visual reveal-right">
+          <div class="sb-icon-big">🖥️</div>
+          <div class="sb-stack">
+            <span class="sb-stag">React</span><span class="sb-stag">Next.js</span><span class="sb-stag">Node.js</span>
+            <span class="sb-stag">Python / FastAPI</span><span class="sb-stag">PostgreSQL</span>
+            <span class="sb-stag">AWS / GCP</span><span class="sb-stag">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATA ENGINEERING -->
+      <div class="service-block reverse">
+        <div class="reveal-right">
+          <div class="sb-label">04 / Data Engineering</div>
+          <h2 class="sb-title">Your data, working harder for you.</h2>
+          <p class="sb-desc">We design and build scalable data infrastructure that transforms raw data into reliable business intelligence. From batch ETL pipelines to real-time streaming systems and enterprise data warehouses — we build the plumbing that powers confident, data-driven decisions.</p>
+          <ul class="sb-list">
+            <li>ETL / ELT pipeline design and development</li>
+            <li>Data warehouse & lakehouse architecture (Snowflake, BigQuery)</li>
+            <li>Real-time streaming with Apache Kafka & Spark</li>
+            <li>dbt data transformation and modelling</li>
+            <li>Analytics & BI dashboard development</li>
+            <li>Data quality, observability, and governance</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Build Your Data Platform →</a>
+        </div>
+        <div class="sb-visual reveal-left">
+          <div class="sb-icon-big">🗄️</div>
+          <div class="sb-stack">
+            <span class="sb-stag">Apache Spark</span><span class="sb-stag">Kafka</span><span class="sb-stag">Airflow</span>
+            <span class="sb-stag">dbt</span><span class="sb-stag">Snowflake</span>
+            <span class="sb-stag">BigQuery</span><span class="sb-stag">Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD-ONS -->
+    <div class="addons">
+      <div class="section-label reveal">Also in our toolkit</div>
+      <h2 class="section-title reveal" style="margin-bottom:0;">Additional capabilities.</h2>
+      <div class="addons-grid">
+        <div class="addon-card reveal"><span class="addon-icon">☁️</span><div class="addon-name">Cloud & DevOps</div><p class="addon-desc">AWS / GCP setup, Kubernetes, Docker, monitoring, and infrastructure-as-code for every project we deploy.</p></div>
+        <div class="addon-card reveal"><span class="addon-icon">🔒</span><div class="addon-name">Security & Compliance</div><p class="addon-desc">GDPR, HIPAA, SOC2 readiness. Security audits, vulnerability assessments, and compliance automation.</p></div>
+        <div class="addon-card reveal"><span class="addon-icon">🎨</span><div class="addon-name">UI/UX Design</div><p class="addon-desc">Figma-based design systems, wireframes, and high-fidelity prototypes for every web application we build.</p></div>
+        <div class="addon-card reveal"><span class="addon-icon">📊</span><div class="addon-name">Analytics & BI</div><p class="addon-desc">Custom dashboards, embedded analytics, and reporting layers built on top of your data infrastructure.</p></div>
+      </div>
+    </div>
+  </div></div>
+
+  <section class="process-band section-wrap">
+    <div class="container">
+      <div class="reveal" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">How We Work</div>
+        <h2 class="section-title">From brief to production<br>in four steps.</h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-step reveal"><span class="step-num">STEP 01</span><div class="step-dot"></div><div class="step-title">Discovery</div><p class="step-desc">We dig deep into your goals, data, and systems to define what we're really building and why — before writing a line of code.</p></div>
+        <div class="process-step reveal"><span class="step-num">STEP 02</span><div class="step-dot"></div><div class="step-title">Architect</div><p class="step-desc">Technical design, stack selection, data modelling, and prototyping — all validated before we begin full development.</p></div>
+        <div class="process-step reveal"><span class="step-num">STEP 03</span><div class="step-dot"></div><div class="step-title">Build</div><p class="step-desc">Agile sprints with weekly demos. Clean, tested, documented code delivered consistently and transparently.</p></div>
+        <div class="process-step reveal"><span class="step-num">STEP 04</span><div class="step-dot"></div><div class="step-title">Deploy & Support</div><p class="step-desc">We handle production deployment, monitoring, documentation, and ongoing support so you can scale with confidence.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="section-wrap"><div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+          <div class="footer-logo-wrap">
+            <img src="../images/fennec-logo.svg" alt="Fennec Tech Labs" class="footer-logo-img"/>
+            <div class="footer-logo-text">
+              <span class="footer-brand-name">Fennec Tech Labs<span class="footer-brand-dot">.</span></span>
+              <span class="footer-brand-tagline">Design<span class="footer-bull">•</span>Develop<span class="footer-bull">•</span>Deploy</span>
+            </div>
+          </div>
+          <p>Intelligent, scalable digital solutions across software, web, AI, automation, and data engineering.</p>
+        </div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="portfolio.html">Our Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">AI & Gen AI</a></li><li><a href="services.html">Automation</a></li><li><a href="services.html">Full-Stack Dev</a></li><li><a href="services.html">Data Engineering</a></li></ul></div>
+      <div class="footer-col"><h4>Reach Us</h4><ul><li><a href="mailto:hello@fennectechlabs.com">hello@fennectechlabs.com</a></li><li><a href="contact.html">YRPSphere</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2025 Fennec Tech Labs. Made with <span>♥</span> in India.</div><div class="footer-socials"><a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a></div></div>
+  </div></footer>
+  <script src="../js/global.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>About — Fennec Tech Labs</title>
+  <link rel="stylesheet" href="../css/global.css"/>
+  <style>
+    .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;padding:80px 0 100px;}
+    .mission-text h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-2px;line-height:.96;color:var(--text);margin-bottom:22px;}
+    .mission-text p{font-size:15px;color:var(--text-muted);line-height:1.8;font-weight:300;margin-bottom:16px;}
+    .mission-visual{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:44px;position:relative;overflow:hidden;}
+    .mission-visual::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(196,81,31,.13),transparent);pointer-events:none;}
+    .mv-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border-sub);position:relative;z-index:1;}
+    .mv-row:last-child{border-bottom:none;padding-bottom:0;}
+    .mv-label{font-size:14px;color:var(--text-muted);font-weight:300;}
+    .mv-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--fox-bright);letter-spacing:-1.5px;}
+
+    .specs{padding:0 0 100px;}
+    .specs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:56px;}
+    .spec-card{background:var(--surface);border:1px solid var(--border-sub);border-radius:var(--radius-lg);padding:40px;transition:all var(--transition);cursor:none;position:relative;overflow:hidden;}
+    .spec-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 10% 10%,var(--fox-dim),transparent 60%);opacity:0;transition:opacity .4s;}
+    .spec-card:hover{border-color:var(--fox);transform:translateY(-3px);box-shadow:0 16px 48px var(--shadow);}
+    .spec-card:hover::before{opacity:1;}
+    .spec-icon{font-size:36px;margin-bottom:18px;display:block;}
+    .spec-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:12px;}
+    .spec-desc{font-size:14px;color:var(--text-muted);line-height:1.75;font-weight:300;margin-bottom:20px;}
+    .spec-tags{display:flex;flex-wrap:wrap;gap:7px;}
+    .stag{font-size:11px;padding:3px 11px;border:1px solid var(--border);border-radius:100px;color:var(--text-muted);transition:all var(--transition);}
+    .spec-card:hover .stag{border-color:rgba(196,81,31,.35);color:var(--fox-bright);}
+
+    .values-section{padding:80px 0;background:var(--bg2);}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px;}
+    .value-card{background:var(--surface);border:1px solid var(--border-sub);border-radius:var(--radius-lg);padding:32px;transition:border-color var(--transition);cursor:none;}
+    .value-card:hover{border-color:var(--fox);}
+    .v-icon{font-size:28px;margin-bottom:14px;display:block;}
+    .v-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .v-desc{font-size:13.5px;color:var(--text-muted);line-height:1.7;font-weight:300;}
+
+    .founder-section{padding:80px 0;}
+    .founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+    .founder-quote-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:48px;position:relative;}
+    .founder-quote-box::before{content:'"';position:absolute;top:14px;left:26px;font-family:'Syne',sans-serif;font-size:80px;color:var(--fox-dim);font-weight:800;line-height:1;}
+    .fq-text{font-size:15.5px;color:var(--text);line-height:1.8;font-style:italic;font-weight:300;margin-bottom:28px;padding-left:12px;}
+    .fq-sig{display:flex;align-items:center;gap:14px;padding-left:12px;}
+    .fq-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--fox),var(--fox-bright));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:white;flex-shrink:0;}
+    .fq-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+    .fq-role{font-size:12px;color:var(--text-muted);}
+    .founder-info h3{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:800;letter-spacing:-1.5px;color:var(--text);margin-bottom:16px;line-height:1.05;}
+    .founder-info p{font-size:15px;color:var(--text-muted);line-height:1.8;font-weight:300;margin-bottom:14px;}
+    .exp-list{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+    .exp-item{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-muted);}
+    .exp-item::before{content:'';width:28px;height:1px;background:var(--fox);flex-shrink:0;}
+
+    .yrp-section{padding:80px 0;background:var(--bg2);}
+    .yrp-inner{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;overflow:hidden;}
+    .yrp-inner::before{content:'';position:absolute;top:-80px;left:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(196,81,31,.07),transparent 70%);pointer-events:none;}
+    .yrp-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border:1px solid rgba(34,197,94,.25);border-radius:100px;font-size:11px;color:#4ade80;letter-spacing:2px;text-transform:uppercase;font-weight:600;background:rgba(34,197,94,.06);margin-bottom:18px;}
+    .yrp-title{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:800;letter-spacing:-2px;line-height:.96;color:var(--text);margin-bottom:14px;}
+    .yrp-desc{font-size:15px;color:var(--text-muted);line-height:1.8;font-weight:300;margin-bottom:22px;}
+    .yrp-pts{display:flex;flex-direction:column;gap:11px;}
+    .yrp-pt{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--text-muted);}
+    .yrp-pt::before{content:'→';color:var(--fox);font-size:12px;flex-shrink:0;margin-top:1px;}
+    .yrp-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .yrp-stat{padding:22px;background:var(--bg2);border:1px solid var(--border-sub);border-radius:var(--radius);text-align:center;}
+    .yrp-stat-n{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--fox-bright);letter-spacing:-1.5px;}
+    .yrp-stat-l{font-size:11px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-top:5px;}
+
+    /* ── Team Photo ── */
+    .team-photo-wrap{position:relative;border-radius:var(--radius-lg);overflow:hidden;}
+    .team-photo-wrap img{width:100%;height:420px;object-fit:cover;display:block;transition:transform .6s ease;}
+    .team-photo-wrap:hover img{transform:scale(1.03);}
+    .team-photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,81,31,.18) 0%,transparent 60%);pointer-events:none;}
+    .team-photo-accent{position:absolute;bottom:24px;left:24px;background:rgba(6,6,8,.75);backdrop-filter:blur(12px);border:1px solid rgba(196,81,31,.3);border-radius:var(--radius);padding:12px 18px;}
+    .team-photo-accent span{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--fox-bright);letter-spacing:1px;text-transform:uppercase;}
+    .team-photo-accent p{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px;}
+
+
+    /* ── Team Photo ── */
+    .team-photo-wrap{position:relative;border-radius:var(--radius-lg);overflow:hidden;}
+    .team-photo-wrap img{width:100%;height:340px;object-fit:cover;object-position:center;display:block;transition:transform .6s ease;}
+    .team-photo-wrap:hover img{transform:scale(1.04);}
+    .team-photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,8,.85) 0%,rgba(6,6,8,.15) 55%,transparent 100%);}
+    .team-photo-accent{position:absolute;bottom:0;left:0;right:0;padding:22px 24px;}
+    .team-photo-accent span{display:block;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
+    .team-photo-accent p{font-size:12px;color:rgba(255,255,255,.65);letter-spacing:1.5px;text-transform:uppercase;margin:0;}
+    .team-photo-bar{position:absolute;bottom:0;left:0;width:48px;height:3px;background:var(--fox);}
+    [data-theme="light"] .team-photo-overlay{background:linear-gradient(to top,rgba(20,14,10,.75) 0%,rgba(20,14,10,.1) 55%,transparent 100%);}
+    @media(max-width:900px){.mission-grid,.specs-grid,.values-grid,.founder-grid,.yrp-inner{grid-template-columns:1fr;gap:40px;}}
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+  <canvas id="grid-canvas"></canvas>
+  <nav>
+    <a href="../index.html" class="fnc-nav-logo">
+      <span class="fnc-spark"></span><span class="fnc-spark"></span>
+      <span class="fnc-spark"></span><span class="fnc-spark"></span>
+      <span class="fnc-spark"></span>
+      <img src="../images/fennec-logo.svg" class="fnc-nav-img" alt="Fennec Tech Labs"/>
+      <div class="fnc-nav-text">
+        <span class="fnc-nav-name">Fennec Tech Labs<span class="fnc-dot">.</span></span>
+        <span class="fnc-nav-tagline">Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull">•</span>Deploy</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li><li><a href="services.html">Services</a></li>
+      <li><a href="portfolio.html">Work</a></li><li><a href="about.html" class="active">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="yrpsphere.html">YRPSphere</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+      <a href="contact.html" class="nav-cta">Let's Talk →</a>
+      <button class="nav-hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="section-wrap"><div class="container">
+    <div class="page-hero">
+      <div class="section-label reveal" style="margin-bottom:14px;">About Us</div>
+      <h1 class="section-title reveal">The team behind<br>your next product.</h1>
+      <p class="page-hero-sub reveal">A sharp, focused studio with deep expertise in AI, automation, full-stack engineering, and data — built to deliver enterprise-grade results at any scale.</p>
+    </div>
+
+    <div class="mission-grid">
+      <div class="reveal-left">
+        <div class="section-label">Our Mission</div>
+        <h2>We exist to close the gap between great ideas and great software.</h2>
+        <p>Too many ambitious projects fail — not because of bad ideas, but because teams can't find a technical partner who understands the problem deeply and cares about the outcome. Fennec Tech Labs exists to fix that.</p>
+        <p>We bring enterprise-level engineering expertise to every engagement — AI systems, automation pipelines, full-stack applications, data platforms — all delivered with the rigour of someone who's done it for Corning, Bosch, and GSK.</p>
+        <a href="contact.html" class="btn btn-primary" style="margin-top:12px;">Work With Us →</a>
+      </div>
+      <div class="mission-visual reveal-right">
+        <div class="section-label" style="margin-bottom:20px;font-size:10px;">By the Numbers</div>
+        <div class="mv-row"><span class="mv-label">Projects Shipped</span><span class="mv-val" data-count="50" data-suffix="+">0</span></div>
+        <div class="mv-row"><span class="mv-label">Enterprise Clients</span><span class="mv-val" data-count="7" data-suffix="+">0</span></div>
+        <div class="mv-row"><span class="mv-label">Years in Business</span><span class="mv-val" data-count="3" data-suffix="+">0</span></div>
+        <div class="mv-row"><span class="mv-label">Developers Trained</span><span class="mv-val" data-count="40" data-suffix="+">0</span></div>
+        <div class="mv-row"><span class="mv-label">Client Satisfaction</span><span class="mv-val" data-count="99" data-suffix="%">0</span></div>
+      </div>
+    </div>
+
+    <div class="specs">
+      <div class="section-label reveal">Core Specializations</div>
+      <h2 class="section-title reveal">Deep expertise.<br>Proven delivery.</h2>
+      <div class="specs-grid">
+        <div class="spec-card reveal">
+          <span class="spec-icon">🤖</span>
+          <div class="spec-name">AI & Gen AI Engineering</div>
+          <p class="spec-desc">We build production-grade AI systems — not demos. From LLM fine-tuning and RAG pipelines to intelligent document processing (P&ID extraction, BOM parsing), computer vision, and enterprise AI integration. Delivered for Fortune 500 clients.</p>
+          <div class="spec-tags"><span class="stag">LLMs / RAG</span><span class="stag">OpenAI / Claude</span><span class="stag">LangChain</span><span class="stag">Document AI</span><span class="stag">Computer Vision</span><span class="stag">Python</span></div>
+        </div>
+        <div class="spec-card reveal">
+          <span class="spec-icon">⚙️</span>
+          <div class="spec-name">Automation Engineering</div>
+          <p class="spec-desc">End-to-end automation that eliminates manual work and scales operations. RPA, intelligent workflow automation, test automation, data pipeline orchestration, and API automation — we automate the right things, the right way.</p>
+          <div class="spec-tags"><span class="stag">Python Automation</span><span class="stag">RPA</span><span class="stag">Selenium / Playwright</span><span class="stag">Airflow</span><span class="stag">CI/CD</span><span class="stag">API Automation</span></div>
+        </div>
+        <div class="spec-card reveal">
+          <span class="spec-icon">🖥️</span>
+          <div class="spec-name">Full-Stack Application Development</div>
+          <p class="spec-desc">Complete web applications — from pixel-perfect frontends to robust backend APIs. We handle the full stack: React/Next.js, Node.js or Python backends, PostgreSQL, auth systems, cloud deployment, and everything in between.</p>
+          <div class="spec-tags"><span class="stag">React / Next.js</span><span class="stag">Node.js</span><span class="stag">Python / FastAPI</span><span class="stag">PostgreSQL</span><span class="stag">REST / GraphQL</span><span class="stag">AWS / GCP</span></div>
+        </div>
+        <div class="spec-card reveal">
+          <span class="spec-icon">🗄️</span>
+          <div class="spec-name">Data Engineering</div>
+          <p class="spec-desc">Scalable data infrastructure that turns raw data into business intelligence. We design and build ETL pipelines, data warehouses, streaming systems, and analytics platforms — helping organizations make confident, data-driven decisions.</p>
+          <div class="spec-tags"><span class="stag">ETL Pipelines</span><span class="stag">Apache Spark</span><span class="stag">dbt</span><span class="stag">Snowflake / BigQuery</span><span class="stag">Kafka</span><span class="stag">Airflow</span></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <section class="values-section section-wrap">
+    <div class="container">
+      <div class="section-label reveal">Our Values</div>
+      <h2 class="section-title reveal">What we stand for.</h2>
+      <div class="values-grid">
+        <div class="value-card reveal"><span class="v-icon">🎯</span><div class="v-title">Craft over commodity</div><p class="v-desc">Every AI system, data pipeline, and deployed application is built with intention — not copy-pasted from templates.</p></div>
+        <div class="value-card reveal"><span class="v-icon">🤝</span><div class="v-title">Radical transparency</div><p class="v-desc">No jargon, no billing surprises. You always know exactly where your project stands — technically and commercially.</p></div>
+        <div class="value-card reveal"><span class="v-icon">🚀</span><div class="v-title">Bias to action</div><p class="v-desc">We ship. We iterate. We learn fast. Real software in your hands beats slides in a deck every single time.</p></div>
+        <div class="value-card reveal"><span class="v-icon">🧠</span><div class="v-title">Depth over breadth</div><p class="v-desc">We specialise in what we know deeply — AI, automation, full-stack, data. We don't pretend to do everything.</p></div>
+        <div class="value-card reveal"><span class="v-icon">🏭</span><div class="v-title">Enterprise-grade, always</div><p class="v-desc">Working with Corning, Bosch, and GSK taught us what quality means under pressure. Every client gets that standard.</p></div>
+        <div class="value-card reveal"><span class="v-icon">💡</span><div class="v-title">Partner, not vendor</div><p class="v-desc">We ask "why" before "how". Your business goals are our north star — every technical decision is made with your outcome in mind.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="founder-section section-wrap">
+    <div class="container">
+      <div class="founder-grid" style="grid-template-columns:1fr 1fr 1fr;gap:40px;">
+        <!-- Photo -->
+        <div class="team-photo-wrap reveal-left">
+          <img src="../images/team-working.jpg" alt="Fennec Tech Labs team collaborating"/>
+          <div class="team-photo-overlay"></div>
+          <div class="team-photo-accent">
+            <span>The Fennec Team</span>
+            <p>Building things that matter</p>
+          </div>
+          <div class="team-photo-bar"></div>
+        </div>
+        <!-- Quote -->
+        <div class="founder-quote-box reveal">
+          <p class="fq-text">We started Fennec because we saw too many great technical problems go unsolved — not because no solution existed, but because teams couldn't find a partner with the right depth. AI, automation, data engineering — these aren't buzzwords for us. They're the work we've done every day, for some of the most demanding companies in the world. We bring that same seriousness to every client we take on.</p>
+          <div class="fq-sig">
+            <div class="fq-av">FN</div>
+            <div><div class="fq-name">Founder, Fennec Tech Labs</div><div class="fq-role">fennectechlabs.com</div></div>
+          </div>
+        </div>
+        <!-- Info -->
+        <div class="founder-info reveal-right">
+          <h3>Built by engineers who've done it at enterprise scale.</h3>
+          <p>Our core team has hands-on experience delivering complex technical projects for some of the world's most demanding organizations — across industrial automation, pharma, telecom, HCM, and enterprise software.</p>
+          <div class="exp-list">
+            <div class="exp-item">Corning — Industrial AI & automation</div>
+            <div class="exp-item">Bosch — Engineering intelligence systems</div>
+            <div class="exp-item">GSK — Pharma data & compliance automation</div>
+            <div class="exp-item">Ciena — Telecom network platforms</div>
+            <div class="exp-item">Windstream — Enterprise software systems</div>
+            <div class="exp-item">Ceridian Dayforce — HCM platform integration</div>
+            <div class="exp-item">Impakt IQ — AI-powered analytics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="yrp-section section-wrap">
+    <div class="container">
+      <div class="yrp-inner reveal">
+        <div>
+          <div class="yrp-badge">🎓 YRPSphere Initiative</div>
+          <h2 class="yrp-title">Bridging learning with real-world impact.</h2>
+          <p class="yrp-desc">Through YRPSphere, we train and place future developers — giving talented individuals hands-on experience on real projects alongside our team, then helping them land industry roles.</p>
+          <div class="yrp-pts">
+            <div class="yrp-pt">Real project experience — not just tutorials</div>
+            <div class="yrp-pt">Tracks: AI/ML, Automation, Full-Stack, Data Engineering</div>
+            <div class="yrp-pt">Mentorship from engineers with Fortune 500 experience</div>
+            <div class="yrp-pt">Active placement support into partner companies</div>
+          </div>
+          <a href="contact.html" class="btn btn-outline" style="margin-top:28px;">Apply to YRPSphere →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="team-photo-wrap" style="border-radius:var(--radius-lg);">
+            <img src="../images/yrp-classroom.jpg" alt="YRPSphere training session" style="width:100%;height:220px;object-fit:cover;object-position:center top;border-radius:var(--radius-lg);display:block;transition:transform .6s ease;"/>
+            <div class="team-photo-overlay" style="border-radius:var(--radius-lg);"></div>
+            <div class="team-photo-accent">
+              <span>Live Training Session</span>
+              <p>Batch 17 · Real code. Real mentors.</p>
+            </div>
+            <div class="team-photo-bar" style="border-radius:0 0 0 var(--radius-lg);"></div>
+          </div>
+          <div class="yrp-stats" style="grid-template-columns:repeat(2,1fr);">
+            <div class="yrp-stat"><div class="yrp-stat-n" data-count="40" data-suffix="+">0</div><div class="yrp-stat-l">Trained</div></div>
+            <div class="yrp-stat"><div class="yrp-stat-n" data-count="85" data-suffix="%">0</div><div class="yrp-stat-l">Placed</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="section-wrap"><div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+          <div class="footer-logo-wrap">
+            <img src="../images/fennec-logo.svg" alt="Fennec Tech Labs" class="footer-logo-img"/>
+            <div class="footer-logo-text">
+              <span class="footer-brand-name">Fennec Tech Labs<span class="footer-brand-dot">.</span></span>
+              <span class="footer-brand-tagline">Design<span class="footer-bull">•</span>Develop<span class="footer-bull">•</span>Deploy</span>
+            </div>
+          </div>
+          <p>Intelligent, scalable digital solutions across software, web, AI, automation, and data engineering.</p>
+        </div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="portfolio.html">Our Work</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">AI & Gen AI</a></li><li><a href="services.html">Automation</a></li><li><a href="services.html">Full-Stack Dev</a></li><li><a href="services.html">Data Engineering</a></li></ul></div>
+      <div class="footer-col"><h4>Reach Us</h4><ul><li><a href="mailto:hello@fennectechlabs.com">hello@fennectechlabs.com</a></li><li><a href="contact.html">YRPSphere</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2025 Fennec Tech Labs. Made with <span>♥</span> in India.</div><div class="footer-socials"><a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a></div></div>
+  </div></footer>
+  <script src="../js/global.js"></script>
+</body>
+</html>

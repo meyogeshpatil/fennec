@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Blog — Fennec Tech Labs</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <style>
+      .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        margin-top: 64px;
+      }
+      .blog-card {
+        background: var(--surface);
+        border: 1px solid var(--border-sub);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all var(--transition);
+        cursor: none;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+      }
+      .blog-card:hover {
+        border-color: var(--fox);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 50px var(--shadow);
+      }
+      .blog-card.featured {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .blog-thumb {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .blog-card.featured .blog-thumb {
+        height: 100%;
+        min-height: 260px;
+      }
+      .blog-thumb-bg {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.5s;
+      }
+      .blog-card:hover .blog-thumb-bg {
+        transform: scale(1.05);
+      }
+      .blog-emoji {
+        font-size: 52px;
+        position: relative;
+        z-index: 1;
+        opacity: 0.85;
+      }
+      .blog-card.featured .blog-emoji {
+        font-size: 76px;
+      }
+      .blog-body {
+        padding: 28px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .blog-cat {
+        font-size: 10.5px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--fox);
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .blog-title {
+        font-family: "Syne", sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .blog-card.featured .blog-title {
+        font-size: 24px;
+      }
+      .blog-excerpt {
+        font-size: 13.5px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        font-weight: 300;
+        margin-bottom: auto;
+        padding-bottom: 20px;
+      }
+      .blog-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--text-dim);
+        padding-top: 20px;
+        border-top: 1px solid var(--border-sub);
+        margin-top: auto;
+      }
+      .blog-author {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .blog-av {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--fox), var(--fox-bright));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        font-weight: 700;
+        color: white;
+        font-family: "Syne", sans-serif;
+      }
+
+      .t1 {
+        background: linear-gradient(135deg, #120a06, #2e1208);
+      }
+      .t2 {
+        background: linear-gradient(135deg, #060a14, #0a1428);
+      }
+      .t3 {
+        background: linear-gradient(135deg, #070e0a, #0b2014);
+      }
+      .t4 {
+        background: linear-gradient(135deg, #0e0814, #1c1030);
+      }
+      .t5 {
+        background: linear-gradient(135deg, #0e0e06, #20200a);
+      }
+
+      .newsletter {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 60px;
+        text-align: center;
+        margin: 80px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .newsletter::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 300px;
+        background: radial-gradient(circle, var(--fox-dim), transparent 70%);
+        pointer-events: none;
+      }
+      .newsletter h2 {
+        font-family: "Syne", sans-serif;
+        font-size: 30px;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -1.5px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+      }
+      .newsletter p {
+        font-size: 15px;
+        color: var(--text-muted);
+        margin-bottom: 28px;
+        font-weight: 300;
+        position: relative;
+        z-index: 1;
+      }
+      .nl-form {
+        display: inline-flex;
+        gap: 10px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 5px 5px 5px 20px;
+        max-width: 400px;
+        width: 90%;
+        position: relative;
+        z-index: 1;
+      }
+      .nl-form input {
+        background: none;
+        border: none;
+        outline: none;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--text);
+        flex: 1;
+        min-width: 0;
+      }
+      .nl-form input::placeholder {
+        color: var(--text-muted);
+      }
+      .nl-form button {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 10px 18px;
+        background: var(--fox);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: none;
+        transition: all var(--transition);
+      }
+      .nl-form button:hover {
+        background: var(--fox-bright);
+      }
+
+      @media (max-width: 900px) {
+        .blog-grid {
+          grid-template-columns: 1fr;
+        }
+        .blog-card.featured {
+          grid-column: 1;
+          display: flex;
+        }
+        .blog-card.featured .blog-thumb {
+          min-height: 180px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <canvas id="grid-canvas"></canvas>
+    <nav>
+      <a href="../index.html" class="fnc-nav-logo">
+        <span class="fnc-spark"></span><span class="fnc-spark"></span>
+        <span class="fnc-spark"></span><span class="fnc-spark"></span>
+        <span class="fnc-spark"></span>
+        <img
+          src="../images/fennec-logo.svg"
+          class="fnc-nav-img"
+          alt="Fennec Tech Labs"
+        />
+        <div class="fnc-nav-text">
+          <span class="fnc-nav-name"
+            >Fennec Tech Labs<span class="fnc-dot">.</span></span
+          >
+          <span class="fnc-nav-tagline"
+            >Design<span class="fnc-bull">•</span>Develop<span class="fnc-bull"
+              >•</span
+            >Deploy</span
+          >
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="yrpsphere.html">YRPSphere</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+        <a href="contact.html" class="nav-cta">Let's Talk →</a>
+        <button class="nav-hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="section-wrap">
+      <div class="container">
+        <div class="page-hero">
+          <div class="section-label reveal" style="margin-bottom: 14px">
+            Insights
+          </div>
+          <h1 class="section-title reveal">
+            Ideas, lessons &<br />technical deep dives.
+          </h1>
+          <p class="page-hero-sub reveal">
+            Thoughts from the Fennec team on AI engineering, automation, data
+            infrastructure, and building intelligent software — from people who
+            do this every day.
+          </p>
+        </div>
+
+        <div class="blog-grid">
+          <!-- Featured -->
+          <a href="#" class="blog-card featured reveal">
+            <div class="blog-thumb">
+              <div class="blog-thumb-bg t1"></div>
+              <div class="blog-emoji">🏭</div>
+            </div>
+            <div class="blog-body">
+              <div class="blog-cat">AI Engineering · Deep Dive</div>
+              <div class="blog-title">
+                How we built an AI system that reads P&ID diagrams — and what we
+                learned
+              </div>
+              <p class="blog-excerpt">
+                Parsing complex engineering diagrams with AI sounds simple. It
+                isn't. Here's the full story — the architecture decisions, the
+                failure modes we hit, how we solved the symbol recognition
+                problem, and what the production system actually looks like.
+              </p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <div class="blog-av">FN</div>
+                  Fennec Team
+                </div>
+                <span>Feb 10 · 12 min read</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="blog-card reveal">
+            <div class="blog-thumb" style="height: 180px">
+              <div class="blog-thumb-bg t2"></div>
+              <div class="blog-emoji">🤖</div>
+            </div>
+            <div class="blog-body">
+              <div class="blog-cat">Gen AI · LLMs</div>
+              <div class="blog-title">
+                RAG vs Fine-tuning: What actually works in enterprise production
+              </div>
+              <p class="blog-excerpt">
+                We've deployed both at scale. Here's our honest breakdown — when
+                RAG wins, when fine-tuning is worth it, and the hybrid approach
+                we now default to.
+              </p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <div class="blog-av">FN</div>
+                  AI Team
+                </div>
+                <span>Jan 28 · 9 min</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="blog-card reveal">
+            <div class="blog-thumb" style="height: 180px">
+              <div class="blog-thumb-bg t3"></div>
+              <div class="blog-emoji">⚙️</div>
+            </div>
+            <div class="blog-body">
+              <div class="blog-cat">Automation · Testing</div>
+              <div class="blog-title">
+                How we cut a 2-week release cycle to 2 days with Playwright &
+                GitHub Actions
+              </div>
+              <p class="blog-excerpt">
+                A practical walkthrough of the test automation framework we
+                built for a HCM platform — architecture, patterns, and the CI/CD
+                integration that made the difference.
+              </p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <div class="blog-av">FN</div>
+                  Engineering
+                </div>
+                <span>Jan 14 · 8 min</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="blog-card reveal">
+            <div class="blog-thumb" style="height: 180px">
+              <div class="blog-thumb-bg t4"></div>
+              <div class="blog-emoji">🗄️</div>
+            </div>
+            <div class="blog-body">
+              <div class="blog-cat">Data Engineering</div>
+              <div class="blog-title">
+                dbt + Airflow + Snowflake: Our go-to modern data stack in 2025
+              </div>
+              <p class="blog-excerpt">
+                After building data platforms for 10+ companies, this is the
+                stack we keep coming back to — and why. Opinionated, practical,
+                and battle-tested.
+              </p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <div class="blog-av">FN</div>
+                  Data Team
+                </div>
+                <span>Dec 20 · 10 min</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="blog-card reveal">
+            <div class="blog-thumb" style="height: 180px">
+              <div class="blog-thumb-bg t5"></div>
+              <div class="blog-emoji">🖥️</div>
+            </div>
+            <div class="blog-body">
+              <div class="blog-cat">Full-Stack · Architecture</div>
+              <div class="blog-title">
+                Building enterprise-grade Next.js apps: What the tutorials don't
+                tell you
+              </div>
+              <p class="blog-excerpt">
+                From multi-tenancy and auth patterns to performance at scale and
+                deployment best practices — lessons from shipping 20+ Next.js
+                apps to production.
+              </p>
+              <div class="blog-meta">
+                <div class="blog-author">
+                  <div class="blog-av">FN</div>
+                  Engineering
+                </div>
+                <span>Dec 5 · 11 min</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="newsletter reveal">
+          <h2>Stay in the loop.</h2>
+          <p>
+            Technical deep dives on AI, automation, and data engineering — once
+            a month, no spam.
+          </p>
+          <div class="nl-form">
+            <input type="email" id="nlEmail" placeholder="your@email.com" />
+            <button onclick="subscribeNL()">Subscribe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="section-wrap">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo-wrap">
+              <img
+                src="../images/fennec-logo.svg"
+                alt="Fennec Tech Labs"
+                class="footer-logo-img"
+              />
+              <div class="footer-logo-text">
+                <span class="footer-brand-name"
+                  >Fennec Tech Labs<span class="footer-brand-dot">.</span></span
+                >
+                <span class="footer-brand-tagline"
+                  >Design<span class="footer-bull">•</span>Develop<span
+                    class="footer-bull"
+                    >•</span
+                  >Deploy</span
+                >
+              </div>
+            </div>
+            <p>
+              Intelligent, scalable digital solutions across software, web, AI,
+              automation, and data engineering.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="portfolio.html">Our Work</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">AI & Gen AI</a></li>
+              <li><a href="services.html">Automation</a></li>
+              <li><a href="services.html">Full-Stack Dev</a></li>
+              <li><a href="services.html">Data Engineering</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Reach Us</h4>
+            <ul>
+              <li>
+                <a href="mailto:hello@fennectechlabs.com"
+                  >hello@fennectechlabs.com</a
+                >
+              </li>
+              <li><a href="contact.html">YRPSphere</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2025 Fennec Tech Labs. Made with <span>♥</span> in India.
+          </div>
+          <div class="footer-socials">
+            <a href="#">in</a><a href="#">𝕏</a><a href="#">gh</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="../js/global.js"></script>
+    <script>
+      const SHEET_URL =
+        "https://script.google.com/macros/s/AKfycbzmyO9-6W6xzQlaZLF8-ejCDDI7e7ID9I5Fd7TgjD6kwbdwnH2TH1Vf1HSTzSR_udxKvQ/exec";
+      async function subscribeNL() {
+        const email = document.getElementById("nlEmail").value.trim();
+        if (!email || !email.includes("@")) {
+          showToast("Please enter a valid email.", "⚠️");
+          return;
+        }
+        try {
+          await fetch(SHEET_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email,
+              source: "Newsletter Blog",
+              timestamp: new Date().toISOString(),
+            }),
+          });
+          showToast("Subscribed! Welcome to the Fennec community 🦊", "✓");
+          document.getElementById("nlEmail").value = "";
+        } catch (e) {
+          showToast("Something went wrong. Try again!", "⚠️");
+        }
+      }
+    </script>
+  </body>
+</html>
